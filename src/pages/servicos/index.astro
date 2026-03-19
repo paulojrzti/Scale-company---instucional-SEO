@@ -1,0 +1,30 @@
+---
+/**
+ * Hub de Serviços — /servicos
+ * Cards linkando para cada um dos 6 serviços
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ServicesGrid from '@components/sections/ServicesGrid.astro';
+import LocalCTA from '@components/sections/LocalCTA.astro';
+---
+
+<BaseLayout
+  title="Serviços de Marketing Digital | Scale — Vila Velha – ES"
+  description="Conheça todos os serviços da Scale: criação de sites, landing pages, tráfego pago, SEO, gestão de redes sociais e email marketing."
+>
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">O que fazemos</span>
+        <h1 class="section-title">Serviços de Marketing Digital</h1>
+        <p class="section-subtitle">
+          Tudo que sua empresa precisa para crescer online — em uma única agência em Vila Velha, ES.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <ServicesGrid showLink={true} />
+
+  <LocalCTA city="Vila Velha" />
+</BaseLayout>

@@ -1,0 +1,44 @@
+---
+/**
+ * Landing Pages em Vila Velha — /vila-velha/criacao-de-landing-pages
+ * Keywords: "landing page vila velha", "landing page para anúncio"
+ * Lead que busca isso já anuncia — fit perfeito para upsell de tráfego pago
+ */
+import LocalLayout from '@layouts/LocalLayout.astro';
+import { getCityBySlug } from '@data/cities';
+const city = getCityBySlug('vila-velha')!;
+---
+<LocalLayout
+  title="Criação de Landing Page em Vila Velha – ES | Scale"
+  description="Landing pages de alta conversão para anunciantes em Vila Velha (ES). Página de captura para Google Ads e Meta Ads. Orçamento grátis. (27) XXXX-XXXX."
+  city={city}
+>
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <span class="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+        📍 Vila Velha – ES
+      </span>
+      <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+        Criação de Landing Page em Vila Velha – ES
+      </h1>
+      <p class="text-lg text-ink-light leading-relaxed mb-8 max-w-2xl">
+        Você já investe em Google Ads ou Meta Ads? Uma landing page profissional pode dobrar sua taxa de conversão — sem aumentar o orçamento de mídia.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary border-2 border-brand-primary transition-colors">
+          Solicitar orçamento
+        </a>
+        <a href="tel:+5527XXXXXXXX" class="px-8 py-4 text-lg font-semibold rounded-lg border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-ink-inverse transition-colors">
+          (27) XXXX-XXXX
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-narrow">
+      <!-- TODO: Dev 2 preenche com conteúdo exclusivo -->
+      <p class="text-ink-light leading-relaxed">Conteúdo exclusivo a ser criado pelo Dev 2.</p>
+    </div>
+  </section>
+</LocalLayout>

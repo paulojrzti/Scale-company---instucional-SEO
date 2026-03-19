@@ -1,0 +1,55 @@
+---
+interface Testimonial {
+  name: string;
+  company?: string;
+  city?: string;
+  text: string;
+  rating?: number;
+}
+
+interface Props {
+  title?: string;
+  testimonials?: Testimonial[];
+}
+
+const {
+  title = 'O que nossos clientes dizem',
+  testimonials = [
+    // TODO: substituir pelos depoimentos reais
+    { name: 'Cliente 1', company: 'Empresa A', city: 'Vila Velha', text: 'Depoimento real a ser adicionado.', rating: 5 },
+    { name: 'Cliente 2', company: 'Empresa B', city: 'Vitória',    text: 'Depoimento real a ser adicionado.', rating: 5 },
+    { name: 'Cliente 3', company: 'Empresa C', city: 'Serra',      text: 'Depoimento real a ser adicionado.', rating: 5 },
+  ],
+} = Astro.props;
+---
+
+<section class="section bg-surface-subtle">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">{title}</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {testimonials.map((t) => (
+        <article class="bg-surface-card border border-edge rounded-xl p-6">
+          {t.rating && (
+            <div class="text-amber-400 text-lg mb-4" aria-label={`${t.rating} estrelas`}>
+              {'★'.repeat(t.rating)}
+            </div>
+          )}
+          <blockquote class="text-ink-mid leading-relaxed italic mb-5">
+            "{t.text}"
+          </blockquote>
+          <footer>
+            <strong class="text-sm font-semibold text-ink">{t.name}</strong>
+            {(t.company || t.city) && (
+              <p class="text-xs text-ink-light mt-0.5">
+                {[t.company, t.city].filter(Boolean).join(' · ')}
+              </p>
+            )}
+          </footer>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

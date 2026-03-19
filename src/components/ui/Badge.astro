@@ -1,0 +1,23 @@
+---
+interface Props {
+  variant?: 'primary' | 'outline' | 'subtle' | 'success' | 'warning' | 'error' | 'new' | 'local';
+  class?: string;
+}
+
+const { variant = 'subtle', class: className } = Astro.props;
+
+const variants = {
+  primary: 'bg-brand-primary text-ink-inverse',
+  outline: 'border border-brand-primary text-brand-primary',
+  subtle:  'bg-surface-subtle text-ink-light',
+  success: 'bg-green-50 border border-green-200 text-green-700',
+  warning: 'bg-amber-50 border border-amber-200 text-amber-700',
+  error:   'bg-red-50 border border-red-200 text-red-700',
+  new:     'bg-brand-accent text-ink-inverse',
+  local:   'bg-green-50 border border-green-200 text-green-700',
+};
+---
+
+<span class={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full ${variants[variant]} ${className ?? ''}`}>
+  <slot />
+</span>

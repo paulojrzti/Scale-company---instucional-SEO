@@ -1,0 +1,69 @@
+---
+/**
+ * SchemaLocalBusiness.astro — Schema JSON-LD para páginas locais
+ * Incluído automaticamente pelo LocalLayout.astro
+ * NAP deve ser idêntico ao Google Business Profile.
+ */
+import type { City } from '@data/cities';
+
+interface Props {
+  city: City;
+}
+
+const { city } = Astro.props;
+const siteUrl = import.meta.env.SITE || 'https://scaleco.com.br';
+
+// TODO: preencher com dados reais após receber identidade visual e endereço
+const nap = {
+  name: 'Scale',
+  legalName: 'Scale Marketing Digital', // TODO: razão social real
+  url: siteUrl,
+  telephone: '+55-27-XXXX-XXXX',         // TODO: telefone real
+  email: 'contato@scale.com.br',          // TODO: email real
+  // Endereço — deve ser IDÊNTICO ao GBP
+  streetAddress: '',       // TODO: logradouro e número
+  addressLocality: 'Vila Velha',
+  addressRegion: 'ES',
+  postalCode: '',          // TODO: CEP
+  addressCountry: 'BR',
+  logo: `${siteUrl}/assets/brand/logo.png`,
+  image: `${siteUrl}/assets/brand/og-default.jpg`,
+  priceRange: '$$',
+  openingHours: 'Mo-Fr 09:00-18:00',
+};
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${siteUrl}/${city.slug}`,
+  name: nap.name,
+  legalName: nap.legalName,
+  url: `${siteUrl}/${city.slug}`,
+  telephone: nap.telephone,
+  email: nap.email,
+  logo: nap.logo,
+  image: nap.image,
+  priceRange: nap.priceRange,
+  openingHours: nap.openingHours,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: nap.streetAddress,
+    addressLocality: city.id === 'espirito-santo' ? 'Vila Velha' : city.name,
+    addressRegion: city.stateAbbr,
+    postalCode: nap.postalCode,
+    addressCountry: nap.addressCountry,
+  },
+  areaServed: {
+    '@type': 'State',
+    name: city.state,
+  },
+  sameAs: [
+    // TODO: adicionar URLs dos perfis sociais
+    // 'https://www.instagram.com/scale',
+    // 'https://www.linkedin.com/company/scale',
+    // 'https://maps.google.com/?cid=SEU_CID_GBP',
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

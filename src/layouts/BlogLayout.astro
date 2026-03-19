@@ -1,0 +1,30 @@
+---
+/**
+ * BlogLayout.astro — Layout para artigos do blog
+ * Ex: /blog/quanto-custa-criar-site, /blog/o-que-e-landing-page
+ *
+ * Inclui Schema JSON-LD Article automaticamente.
+ */
+import BaseLayout from './BaseLayout.astro';
+import SchemaArticle from '@components/seo/SchemaArticle.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  article: CollectionEntry<'blog'>;
+}
+
+const { article } = Astro.props;
+const { title, description, coverImage } = article.data;
+
+const ogTitle = `${title} | Scale`;
+---
+
+<BaseLayout
+  title={ogTitle}
+  description={description}
+  ogImage={coverImage}
+  ogType="article"
+>
+  <SchemaArticle slot="head" article={article} />
+  <slot />
+</BaseLayout>

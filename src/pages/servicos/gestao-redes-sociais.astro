@@ -1,0 +1,31 @@
+---
+import ServiceLayout from '@layouts/ServiceLayout.astro';
+import LocalCTA from '@components/sections/LocalCTA.astro';
+import { getServiceBySlug } from '@data/services';
+const service = getServiceBySlug('redes-sociais')!;
+---
+<ServiceLayout
+  title="Gestão de Redes Sociais para Empresas | Scale"
+  description="Gestão completa de redes sociais: criação de conteúdo, calendário editorial, estratégia de crescimento e relatórios mensais. Vila Velha – ES e todo o Brasil."
+  service={service}
+>
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+        Gestão de Redes Sociais que conecta sua marca ao cliente
+      </h1>
+      <p class="text-lg text-ink-light leading-relaxed mb-8 max-w-2xl">
+        Conteúdo estratégico, consistente e com identidade — para Instagram, Facebook e além.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary border-2 border-brand-primary transition-colors">
+          Solicitar proposta
+        </a>
+        <a href="/vila-velha/gestao-redes-sociais" class="px-8 py-4 text-lg font-semibold rounded-lg border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-ink-inverse transition-colors">
+          Social media em Vila Velha
+        </a>
+      </div>
+    </div>
+  </section>
+  <LocalCTA city="Vila Velha" service="Gestão de Redes Sociais" />
+</ServiceLayout>

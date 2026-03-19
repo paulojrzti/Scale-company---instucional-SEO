@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planejamento SEO — Agência · Vila Velha + ES</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fb;--surface:#fff;--border:#e5e8ef;--bl:#f0f2f6;
+  --ink:#0d1520;--ink2:#3d4a5c;--ink3:#7a8899;
+  --blue:#0ea5e9;--blue-bg:#eff8ff;--blue-bd:#bae6fd;
+  --teal:#0d9488;--teal-bg:#f0fdfa;--teal-bd:#99f6e4;
+  --amber:#d97706;--amber-bg:#fffbeb;--amber-bd:#fde68a;
+  --red:#dc2626;--red-bg:#fff1f2;--red-bd:#fecdd3;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-bd:#bbf7d0;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;--purple-bd:#ddd6fe;
+  --gy-bg:#f1f5f9;--gy-fg:#475569;
+  --r:8px;--rl:12px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0f1923;--surface:#1a2535;--border:#2a3a50;--bl:#1f2e40;
+  --ink:#e2e8f0;--ink2:#94a3b8;--ink3:#64748b;
+  --blue:#38bdf8;--teal:#2dd4bf;--amber:#fbbf24;--red:#f87171;--green:#4ade80;--purple:#a78bfa;
+  --blue-bg:#0c2a3f;--blue-bd:#164e6a;
+  --teal-bg:#0a2820;--teal-bd:#134e4a;
+  --amber-bg:#2d1f08;--amber-bd:#78430b;
+  --red-bg:#2d1015;--red-bd:#7f1d1d;
+  --green-bg:#052e16;--green-bd:#14532d;
+  --purple-bg:#1e1040;--purple-bd:#4c1d95;
+  --gy-bg:#1e293b;--gy-fg:#94a3b8;
+}}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.5;-webkit-text-size-adjust:100%;padding:1rem}
+
+/* TABS */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:1.25rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:10px 16px;font-size:13px;font-weight:500;border:none;background:transparent;color:var(--ink3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0;min-height:44px;display:flex;align-items:center;transition:color .15s,border-color .15s}
+.tab.active{color:var(--ink);border-bottom-color:var(--blue)}
+.tab:hover:not(.active){color:var(--ink2)}
+.pane{display:none}.pane.active{display:block}
+
+/* SECTION LABEL */
+.sl{font-size:11px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin:1.25rem 0 .6rem;display:flex;align-items:center;gap:6px}
+.sl::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* KPI GRID */
+.kg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem}
+@media(min-width:540px){.kg{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.75rem;text-align:center}
+.kv{font-size:20px;font-weight:700;line-height:1;margin-bottom:4px}
+.kl{font-size:11px;color:var(--ink3);line-height:1.3}
+.kv.bl{color:var(--blue)}.kv.gr{color:var(--green)}.kv.am{color:var(--amber)}.kv.te{color:var(--teal)}.kv.pu{color:var(--purple)}.kv.re{color:var(--red)}
+.kv.d1{color:#1d4ed8}.kv.d2{color:#166534}
+@media(prefers-color-scheme:dark){.kv.d1{color:#93c5fd}.kv.d2{color:#86efac}}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:.875rem 1rem;margin-bottom:.5rem}
+.ca{border-left:3px solid var(--blue)}
+.ca.gr{border-left-color:var(--green)}.ca.am{border-left-color:var(--amber)}.ca.pu{border-left-color:var(--purple)}.ca.te{border-left-color:var(--teal)}.ca.re{border-left-color:var(--red)}
+.ch{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ct{font-weight:600;font-size:13px;color:var(--blue);font-family:monospace}
+.cs{font-size:12px;color:var(--ink3);margin-top:3px}
+.cb{font-size:13px;color:var(--ink2);margin-top:.5rem;line-height:1.6}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:.5rem}
+.tag{font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid transparent;font-weight:500;white-space:nowrap}
+.t-pu{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd)}
+.t-gr{background:var(--green-bg);color:var(--green);border-color:var(--green-bd)}
+.t-am{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-bd)}
+.t-gy{background:var(--gy-bg);color:var(--gy-fg)}
+.t-re{background:var(--red-bg);color:var(--red);border-color:var(--red-bd)}
+.t-bl{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-bd)}
+.t-te{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-bd)}
+
+/* NOTICES */
+.notice{padding:.6rem .9rem;border-radius:var(--r);font-size:12px;background:var(--gy-bg);color:var(--ink3);margin-bottom:.75rem;line-height:1.6}
+.notice strong{color:var(--ink)}
+.nw{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd)}.nw strong{color:var(--amber)}
+.nt{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)}.nt strong{color:var(--green)}
+
+/* CITY ROW */
+.city-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem}
+@media(min-width:600px){.city-row{grid-template-columns:repeat(4,1fr)}}
+.city-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:.75rem 1rem}
+.city-card.vv{border-color:var(--green)}
+.cn{font-size:30px;font-weight:800;color:var(--border);line-height:1;margin-bottom:4px}
+.city-card.vv .cn{color:var(--green);opacity:.3}
+.cnm{font-size:13px;font-weight:600;color:var(--ink)}
+.cf{font-size:11px;color:var(--ink3);margin-top:2px}
+
+/* FUNNEL PILLS */
+.fp{display:flex;gap:4px;flex-wrap:wrap;margin-top:.4rem}
+.fs{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;background:var(--gy-bg);color:var(--ink3)}
+.fs.lo{background:var(--green-bg);color:var(--green)}
+.fs.fo{background:var(--teal-bg);color:var(--teal)}
+.fs.ni{background:var(--purple-bg);color:var(--purple)}
+.fs.to{background:var(--blue-bg);color:var(--blue)}
+
+/* PRIORITY BADGE */
+.pri{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.p1{background:#fef9c3;color:#854d0e}
+.p2{background:var(--gy-bg);color:var(--ink3)}
+.plo{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)}
+.pni{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bd)}
+
+/* TABLE */
+.ts{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:var(--rl);background:var(--surface)}
+.ts table{width:100%;min-width:480px;border-collapse:collapse;font-size:13px}
+.ts thead tr{background:var(--bl)}
+.ts th{padding:8px 12px;font-size:11px;font-weight:600;color:var(--ink3);text-align:left;white-space:nowrap;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.06em}
+.ts td{padding:9px 12px;border-bottom:1px solid var(--bl);vertical-align:middle}
+.ts tr:last-child td{border-bottom:none}
+.ts tbody tr:hover td{background:var(--bl)}
+.tb{font-weight:600;color:var(--ink)}.tm{font-family:monospace;font-size:12px}
+.tg{color:var(--green);font-weight:600;font-family:monospace}
+.tmu{color:var(--ink3);font-family:monospace;font-size:12px}
+.tu{color:var(--blue);font-family:monospace;font-size:12px}
+.tsub{font-size:11px;color:var(--ink3);margin-top:2px}
+
+/* BAR */
+.bw{display:flex;align-items:center;gap:6px}
+.bb{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden;min-width:36px}
+.bf{height:5px;border-radius:3px}
+
+/* CONV BARS */
+.conv{display:flex;align-items:center;gap:10px;margin-bottom:.5rem;font-size:12px}
+.cl2{min-width:110px;color:var(--ink2);font-weight:500}
+.cb2{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.cf2{height:8px;border-radius:4px}
+.cv{min-width:80px;text-align:right;font-family:monospace;font-size:11px;color:var(--ink3)}
+
+/* CTR GRID */
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}
+@media(min-width:480px){.cg{grid-template-columns:repeat(5,1fr)}}
+
+/* TASK CARDS */
+.tc{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:.75rem}
+.th2{padding:.75rem 1rem;font-weight:600;font-size:13px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dh1{background:#dbeafe;color:#1e3a8a}
+.dh2{background:#dcfce7;color:#14532d}
+@media(prefers-color-scheme:dark){.dh1{background:#1e3a5f;color:#93c5fd}.dh2{background:#052e16;color:#86efac}}
+.tr2{padding:.6rem 1rem;border-top:1px solid var(--bl);display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink2);flex-wrap:wrap}
+.tt{font-size:10px;padding:2px 7px;border-radius:20px;white-space:nowrap;flex-shrink:0;font-weight:600;margin-top:1px}
+.tot{padding:.5rem 1rem;background:var(--bl);font-size:12px;color:var(--ink3);font-weight:500}
+.pb{font-size:10px;padding:2px 7px;border-radius:20px;background:var(--gy-bg);color:var(--ink3);white-space:nowrap;margin-left:auto;flex-shrink:0}
+.rtext{flex:1;min-width:0}
+
+/* CHECKLIST */
+.ck{padding:.35rem 0;border-top:1px solid var(--bl);display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink2);flex-wrap:wrap}
+.ck:first-child{border-top:none}
+
+/* SERVICE GRID */
+.srv-grid{display:grid;grid-template-columns:1fr;gap:.5rem;margin-bottom:1rem}
+@media(min-width:600px){.srv-grid{grid-template-columns:repeat(3,1fr)}}
+
+.srv-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1rem;border-top:3px solid var(--blue);position:relative}
+.srv-card.gr{border-top-color:var(--green)}
+.srv-card.pu{border-top-color:var(--purple)}
+.srv-card.am{border-top-color:var(--amber)}
+.srv-icon{font-size:22px;margin-bottom:.5rem;display:block}
+.srv-name{font-weight:700;font-size:14px;color:var(--ink);margin-bottom:.25rem}
+.srv-desc{font-size:12px;color:var(--ink3);line-height:1.5;margin-bottom:.5rem}
+.srv-vol{font-family:monospace;font-size:11px;color:var(--blue);font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('services',this)">🛍️ Serviços</button>
+  <button class="tab" onclick="show('local',this)">📍 SEO Local</button>
+  <button class="tab" onclick="show('pages',this)">Páginas</button>
+  <button class="tab" onclick="show('keywords',this)">Termos</button>
+  <button class="tab" onclick="show('articles',this)">Artigos</button>
+  <button class="tab" onclick="show('tasks',this)">Tarefas</button>
+</div>
+
+<!-- ═══════════════ SERVIÇOS ═══════════════ -->
+<div class="pane active" id="pane-services">
+
+  <div class="kg">
+    <div class="kpi"><div class="kv bl">6</div><div class="kl">serviços no site</div></div>
+    <div class="kpi"><div class="kv gr">26</div><div class="kl">páginas total</div></div>
+    <div class="kpi"><div class="kv am">20</div><div class="kl">artigos planejados</div></div>
+    <div class="kpi"><div class="kv te">~180k</div><div class="kl">buscas/mês (est.)</div></div>
+  </div>
+
+  <div class="notice nt">
+    <strong>3 novos serviços adicionados:</strong> Criação de sites, landing pages e consultoria de SEO. Cada um tem página nacional, página local (VV) e artigos próprios — formando um ecossistema completo de captação.
+  </div>
+
+  <div class="sl">Portfólio de serviços</div>
+
+  <div class="srv-grid">
+
+    <div class="srv-card">
+      <span class="srv-icon">📱</span>
+      <div class="srv-name">Gestão de Redes Sociais</div>
+      <div class="srv-desc">Social media, criação de conteúdo, estratégia e relatórios mensais</div>
+      <div class="srv-vol">~9.900 buscas/mês (nacional)</div>
+      <div class="fp" style="margin-top:.5rem">
+        <span class="fs lo">Alto volume local</span><span class="fs fo">Recorrente</span>
+      </div>
+    </div>
+
+    <div class="srv-card">
+      <span class="srv-icon">💰</span>
+      <div class="srv-name">Tráfego Pago</div>
+      <div class="srv-desc">Gestão Google Ads, Meta Ads, relatório de performance e ROAS</div>
+      <div class="srv-vol">~6.600 buscas/mês (nacional)</div>
+      <div class="fp" style="margin-top:.5rem">
+        <span class="fs fo">Alta conversão</span><span class="fs">Recorrente</span>
+      </div>
+    </div>
+
+    <div class="srv-card gr">
+      <span class="srv-icon">🔍</span>
+      <div class="srv-name">SEO (novo)</div>
+      <div class="srv-desc">Consultoria, otimização técnica, produção de conteúdo e link building</div>
+      <div class="srv-vol">~3.600 buscas/mês (nacional)</div>
+      <div class="fp" style="margin-top:.5rem">
+        <span class="fs gr" style="background:var(--green-bg);color:var(--green)">Novo serviço</span><span class="fs fo">Recorrente</span>
+      </div>
+    </div>
+
+    <div class="srv-card pu">
+      <span class="srv-icon">🌐</span>
+      <div class="srv-name">Criação de Sites (novo)</div>
+      <div class="srv-desc">Sites institucionais, responsivos, com SEO técnico e CMS incluso</div>
+      <div class="srv-vol">~33.000 buscas/mês (est. nacional)</div>
+      <div class="fp" style="margin-top:.5rem">
+        <span class="fs ni" style="background:var(--purple-bg);color:var(--purple)">Novo serviço</span><span class="fs to">Alto volume</span>
+      </div>
+    </div>
+
+    <div class="srv-card pu">
+      <span class="srv-icon">⚡</span>
+      <div class="srv-name">Landing Pages (novo)</div>
+      <div class="srv-desc">Páginas de conversão para campanhas, lançamentos e captação de leads</div>
+      <div class="srv-vol">~8.100 buscas/mês (est. nacional)</div>
+      <div class="fp" style="margin-top:.5rem">
+        <span class="fs ni" style="background:var(--purple-bg);color:var(--purple)">Novo serviço</span><span class="fs fo">Alta intenção</span>
+      </div>
+    </div>
+
+    <div class="srv-card am">
+      <span class="srv-icon">📧</span>
+      <div class="srv-name">Email Marketing</div>
+      <div class="srv-desc">Automações, nutrição de leads, newsletters e CRM</div>
+      <div class="srv-vol">~2.400 buscas/mês (nacional)</div>
+      <div class="fp" style="margin-top:.5rem">
+        <span class="fs">Complementar</span><span class="fs fo">Recorrente</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- OPORTUNIDADE -->
+  <div class="sl">Por que criação de sites e landing pages são oportunidades</div>
+
+  <div class="card ca pu">
+    <div class="ch">
+      <div><div style="font-weight:600;font-size:13px">🌐 Criação de sites — maior volume do portfólio</div></div>
+      <span class="tag t-pu">~33k buscas/mês est.</span>
+    </div>
+    <div class="cb">
+      Termos como "criação de site para empresa", "criar site profissional" e "desenvolvimento de site" têm volume alto e intenção de compra forte. Localmente, "criação de site em Vila Velha" tem concorrência praticamente zero. Além disso, é a porta de entrada perfeita: a empresa contrata o site e depois assina o SEO ou as redes sociais como serviços recorrentes.
+    </div>
+    <div class="tags">
+      <span class="tag t-pu">criação de site para empresa</span>
+      <span class="tag t-pu">criar site profissional</span>
+      <span class="tag t-pu">desenvolvimento de site</span>
+      <span class="tag t-pu">site institucional</span>
+      <span class="tag t-gr">criação de site em vila velha</span>
+    </div>
+  </div>
+
+  <div class="card ca pu">
+    <div class="ch">
+      <div><div style="font-weight:600;font-size:13px">⚡ Landing pages — alta intenção, fácil de vender em pacote</div></div>
+      <span class="tag t-pu">~8k buscas/mês est.</span>
+    </div>
+    <div class="cb">
+      Quem busca "criação de landing page" já tem campanha rodando ou vai rodar. Ou seja, é lead que já investe em tráfego pago — fit perfeito para upsell. Localmente, praticamente ninguém tem página dedicada pra isso no ES.
+    </div>
+    <div class="tags">
+      <span class="tag t-pu">criação de landing page</span>
+      <span class="tag t-pu">landing page para anúncio</span>
+      <span class="tag t-pu">landing page profissional</span>
+      <span class="tag t-gr">landing page vila velha</span>
+    </div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch">
+      <div><div style="font-weight:600;font-size:13px">🔍 SEO como serviço — o que mais se vende com site pronto</div></div>
+      <span class="tag t-gr">Recorrente · ticket médio-alto</span>
+    </div>
+    <div class="cb">
+      Agência que cria o site e já oferece o SEO junto tem vantagem imensa: o cliente não precisa explicar nada pra ninguém, é tudo na mesma mão. Termos como "contratar consultoria de SEO" e "agência de SEO em Vila Velha" têm intenção de compra direta e concorrência local mínima.
+    </div>
+    <div class="tags">
+      <span class="tag t-gr">consultoria de SEO</span>
+      <span class="tag t-gr">agência de SEO</span>
+      <span class="tag t-gr">otimização de site Google</span>
+      <span class="tag t-gr">agência de SEO vila velha</span>
+    </div>
+  </div>
+
+  <!-- FUNIL DE CAPTAÇÃO -->
+  <div class="sl">Funil de captação por serviço</div>
+
+  <div class="card">
+    <div style="font-weight:600;font-size:12px;color:var(--ink2);margin-bottom:.75rem">Como cada serviço se conecta e gera upsell</div>
+    <div class="conv"><div class="cl2">Criação de site</div><div class="cb2"><div class="cf2" style="width:100%;background:var(--purple)"></div></div><div class="cv">→ upsell SEO + social</div></div>
+    <div class="conv"><div class="cl2">Landing page</div><div class="cb2"><div class="cf2" style="width:90%;background:var(--purple)"></div></div><div class="cv">→ upsell tráfego pago</div></div>
+    <div class="conv"><div class="cl2">Tráfego pago</div><div class="cb2"><div class="cf2" style="width:80%;background:var(--teal)"></div></div><div class="cv">→ upsell landing page</div></div>
+    <div class="conv"><div class="cl2">Redes sociais</div><div class="cb2"><div class="cf2" style="width:70%;background:var(--blue)"></div></div><div class="cv">→ upsell tráfego pago</div></div>
+    <div class="conv"><div class="cl2">SEO</div><div class="cb2"><div class="cf2" style="width:60%;background:var(--green)"></div></div><div class="cv">→ upsell conteúdo</div></div>
+    <div style="font-size:11px;color:var(--ink3);margin-top:.5rem">Ticket médio sobe quando o cliente contrata 2+ serviços. O site é a porta de entrada mais fácil — qualquer empresa precisa.</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ SEO LOCAL ═══════════════ -->
+<div class="pane" id="pane-local">
+
+  <div class="kg">
+    <div class="kpi"><div class="kv gr">4</div><div class="kl">cidades alvo</div></div>
+    <div class="kpi"><div class="kv bl">12</div><div class="kl">páginas locais</div></div>
+    <div class="kpi"><div class="kv am">60–90d</div><div class="kl">pra 1ª página (VV)</div></div>
+    <div class="kpi"><div class="kv te">Alta</div><div class="kl">conversão local</div></div>
+  </div>
+
+  <div class="notice nt">
+    <strong>Por que local primeiro?</strong> Termos locais têm 5–10× menos concorrência e convertem muito mais. Quem busca "criação de site em Vila Velha" quer contratar agora. 1ª página em 60–90 dias vs 12–18 meses dos termos nacionais.
+  </div>
+
+  <div class="sl">Ordem de foco por cidade</div>
+  <div class="city-row">
+    <div class="city-card vv"><div class="cn">1</div><div class="cnm">Vila Velha</div><div class="cf">Foco principal · semana 1</div></div>
+    <div class="city-card"><div class="cn">2</div><div class="cnm">Vitória</div><div class="cf">Mês 2–3</div></div>
+    <div class="city-card"><div class="cn">3</div><div class="cnm">Serra</div><div class="cf">Mês 3–4</div></div>
+    <div class="city-card"><div class="cn">4</div><div class="cnm">ES (estado)</div><div class="cf">Após dominar cidades</div></div>
+  </div>
+
+  <div class="sl">Páginas locais de Vila Velha — semana 1 (prioridade máxima)</div>
+
+  <div class="card ca gr">
+    <div class="ch"><div><div class="ct">/agencia-de-marketing-digital-vila-velha</div><div class="cs">Hub local principal · menciona todos os serviços</div></div><span class="pri p1">🥇</span></div>
+    <div class="cb">H1: "Agência de Marketing Digital em Vila Velha – ES". Incluir endereço, DDD 27, Google Maps embed, depoimentos locais, bairros (Glória, Praia da Costa, Itapoã).</div>
+    <div class="fp"><span class="fs lo">Local · mínima concorrência</span></div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch"><div><div class="ct">/criacao-de-sites-vila-velha</div><div class="cs">Novo · maior oportunidade local de criação de site</div></div><span class="pri p1">🥇 Novo</span></div>
+    <div class="cb">Praticamente nenhum concorrente local tem página específica para isso. Enorme oportunidade. Textos com referências a empresas de VV que precisam de presença online.</div>
+    <div class="fp"><span class="fs lo">Local</span><span class="fs fo">Alta intenção</span><span class="fs">Concorrência ~zero</span></div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch"><div><div class="ct">/criacao-de-landing-pages-vila-velha</div><div class="cs">Novo · para anunciantes locais</div></div><span class="pri p1">🥇 Novo</span></div>
+    <div class="cb">Lead que busca isso já anuncia no Google/Meta. Fit perfeito para upsell de tráfego pago. Concorrência local inexistente.</div>
+    <div class="fp"><span class="fs lo">Local</span><span class="fs fo">Fundo de funil</span></div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch"><div><div class="ct">/seo-vila-velha</div><div class="cs">Novo · consultoria e gestão de SEO local</div></div><span class="pri p1">🥇 Novo</span></div>
+    <div class="cb">"Agência de SEO em Vila Velha", "consultoria de SEO Vila Velha" — termos que qualquer empresa local usa para buscar. Zero concorrência séria.</div>
+    <div class="fp"><span class="fs lo">Local</span><span class="fs fo">Transacional</span></div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch"><div><div class="ct">/gestao-redes-sociais-vila-velha</div><div class="cs">Social media local</div></div><span class="pri p1">🥇</span></div>
+    <div class="fp"><span class="fs lo">Local · mínima concorrência</span></div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch"><div><div class="ct">/trafego-pago-vila-velha</div><div class="cs">Google Ads + Meta Ads para empresas de VV</div></div><span class="pri p1">🥇</span></div>
+    <div class="fp"><span class="fs lo">Local · mínima concorrência</span></div>
+  </div>
+
+  <div class="sl">Outras cidades — expansão mês 2–4</div>
+
+  <div class="card ca bl">
+    <div class="ch"><div><div class="ct">/criacao-de-sites-vitoria · /agencia-...-vitoria · /seo-vitoria</div></div><span class="pri p2">Prioridade 2 · mês 2</span></div>
+    <div class="fp"><span class="fs lo">Vitória</span><span class="fs">Concorrência baixa</span></div>
+  </div>
+
+  <div class="card ca bl">
+    <div class="ch"><div><div class="ct">/criacao-de-sites-serra · /agencia-...-serra</div></div><span class="pri p2">Prioridade 3 · mês 3</span></div>
+    <div class="fp"><span class="fs lo">Serra</span><span class="fs">Concorrência mínima</span></div>
+  </div>
+
+  <div class="card ca">
+    <div class="ch"><div><div class="ct">/agencia-...-espirito-santo · /criacao-de-sites-espirito-santo</div></div><span class="pri p2">Hub estadual · mês 4+</span></div>
+    <div class="fp"><span class="fs lo">ES</span><span class="fs">Hub de links</span></div>
+  </div>
+
+  <div class="sl">Google Business Profile — semana 1</div>
+  <div class="card">
+    <div style="font-weight:600;font-size:13px;margin-bottom:.75rem">Checklist — ação imediata</div>
+    <div class="ck"><span class="tt t-re">URGENTE</span><span class="rtext">Criar e verificar GBP com endereço Vila Velha – ES</span></div>
+    <div class="ck"><span class="tt t-am">sem 1</span><span class="rtext">Categorias: "Agência de marketing" + "Empresa de desenvolvimento de software" + "Web designer"</span></div>
+    <div class="ck"><span class="tt t-am">sem 1</span><span class="rtext">Adicionar todos os 6 serviços no perfil, com descrição e fotos</span></div>
+    <div class="ck"><span class="tt t-am">sem 1</span><span class="rtext">Telefone DDD 27 consistente em todos os canais (NAP)</span></div>
+    <div class="ck"><span class="tt t-pu">contínuo</span><span class="rtext">Pedir avaliação imediatamente após cada entrega</span></div>
+    <div class="ck"><span class="tt t-pu">contínuo</span><span class="rtext">Postar 1× por semana (antes/depois de sites, prints de resultados)</span></div>
+    <div class="ck"><span class="tt t-gr">mês 2</span><span class="rtext">Cadastrar em: Bing Places, Apple Maps, Foursquare, diretórios ES</span></div>
+  </div>
+
+  <div class="sl">Expectativa de resultado por cidade</div>
+  <div class="card">
+    <div class="conv"><div class="cl2">Vila Velha</div><div class="cb2"><div class="cf2" style="width:88%;background:var(--green)"></div></div><div class="cv">60–90 dias</div></div>
+    <div class="conv"><div class="cl2">Serra</div><div class="cb2"><div class="cf2" style="width:80%;background:var(--teal)"></div></div><div class="cv">90–120 dias</div></div>
+    <div class="conv"><div class="cl2">Vitória</div><div class="cb2"><div class="cf2" style="width:65%;background:var(--blue)"></div></div><div class="cv">90–120 dias</div></div>
+    <div class="conv"><div class="cl2">ES (estado)</div><div class="cb2"><div class="cf2" style="width:42%;background:var(--purple)"></div></div><div class="cv">120–180 dias</div></div>
+    <div style="font-size:11px;color:var(--ink3);margin-top:.5rem">Tempo para 1ª página nos termos locais. Volume baixo mas conversão 3–5× maior que tráfego nacional.</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ PÁGINAS ═══════════════ -->
+<div class="pane" id="pane-pages">
+  <div class="kg">
+    <div class="kpi"><div class="kv bl">13</div><div class="kl">páginas nacionais</div></div>
+    <div class="kpi"><div class="kv gr">12</div><div class="kl">páginas locais</div></div>
+    <div class="kpi"><div class="kv am">25</div><div class="kl">total de páginas</div></div>
+    <div class="kpi"><div class="kv te">6</div><div class="kl">serviços cobertos</div></div>
+  </div>
+
+  <div class="sl">Novos serviços — páginas nacionais</div>
+
+  <div class="card ca pu">
+    <div class="ch"><div><div class="ct">/criacao-de-sites</div><div class="cs">Sites institucionais responsivos com SEO incluso — maior vol do portfólio</div></div><span class="tag t-pu">🆕 Alta prioridade</span></div>
+    <div class="tags"><span class="tag t-pu">criação de site para empresa</span><span class="tag t-pu">criar site profissional</span><span class="tag t-pu">desenvolvimento de site</span><span class="tag t-gy">vol est: ~18k/mês</span></div>
+  </div>
+
+  <div class="card ca pu">
+    <div class="ch"><div><div class="ct">/criacao-de-landing-pages</div><div class="cs">Páginas de conversão para campanhas e lançamentos</div></div><span class="tag t-pu">🆕 Alta prioridade</span></div>
+    <div class="tags"><span class="tag t-pu">criação de landing page</span><span class="tag t-pu">landing page profissional</span><span class="tag t-gy">vol est: ~8k/mês</span></div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch"><div><div class="ct">/consultoria-seo</div><div class="cs">Consultoria + gestão de SEO mensal — já existia como /seo, agora mais completa</div></div><span class="tag t-gr">🆕 Atualizar</span></div>
+    <div class="tags"><span class="tag t-gr">consultoria de SEO</span><span class="tag t-gr">agência de SEO</span><span class="tag t-gr">otimização de site para Google</span><span class="tag t-gy">vol: ~3.600/mês</span></div>
+  </div>
+
+  <div class="sl">Páginas nacionais existentes — mantidas</div>
+
+  <div class="card ca"><div class="ch"><div><div class="ct">/ Home</div><div class="cs">Hub geral — mencionar os 6 serviços e VV/ES</div></div><span class="tag t-re">Alta</span></div><div class="tags"><span class="tag t-pu">agência de marketing digital</span><span class="tag t-gy">vol ~14k/mês</span><span class="tag t-gr">top1: ~3.920</span></div></div>
+
+  <div class="card ca"><div class="ch"><div><div class="ct">/servicos</div><div class="cs">Hub de serviços — agora com 6 cards linkando pra cada serviço</div></div><span class="tag t-re">Alta</span></div></div>
+
+  <div class="card ca"><div class="ch"><div><div class="ct">/gestao-redes-sociais</div></div><span class="tag t-am">Média</span></div><div class="tags"><span class="tag t-pu">gestão de redes sociais</span><span class="tag t-gy">vol ~9.900/mês</span></div></div>
+
+  <div class="card ca"><div class="ch"><div><div class="ct">/trafego-pago</div></div><span class="tag t-re">Alta</span></div><div class="tags"><span class="tag t-pu">tráfego pago</span><span class="tag t-pu">gestão google ads</span><span class="tag t-gy">vol ~6.800/mês</span></div></div>
+
+  <div class="card ca"><div class="ch"><div><div class="ct">/marketing-de-conteudo · /email-marketing</div></div><span class="tag t-am">Média</span></div></div>
+
+  <div class="card ca"><div class="ch"><div><div class="ct">/cases</div><div class="cs">Incluir cases de sites criados e resultados de SEO</div></div><span class="tag t-re">Alta</span></div></div>
+
+  <div class="card ca"><div class="ch"><div><div class="ct">/sobre · /contato</div><div class="cs">Mencionar VV explicitamente · DDD 27 · Google Maps</div></div><span class="tag t-re">Alta</span></div></div>
+
+  <div class="sl">Páginas locais Vila Velha — semana 1 (6 páginas)</div>
+
+  <div class="card ca gr"><div class="ch"><div><div class="ct">/agencia-de-marketing-digital-vila-velha</div></div><span class="pri p1">🥇</span></div><div class="fp"><span class="fs lo">Hub local</span></div></div>
+  <div class="card ca gr"><div class="ch"><div><div class="ct">/criacao-de-sites-vila-velha</div><div class="cs">🆕 Maior oportunidade local não explorada</div></div><span class="pri p1">🥇 Novo</span></div><div class="fp"><span class="fs lo">Local</span><span class="fs">~zero concorrência</span></div></div>
+  <div class="card ca gr"><div class="ch"><div><div class="ct">/criacao-de-landing-pages-vila-velha</div><div class="cs">🆕 Para anunciantes locais</div></div><span class="pri p1">🥇 Novo</span></div><div class="fp"><span class="fs lo">Local</span><span class="fs fo">Upsell tráfego pago</span></div></div>
+  <div class="card ca gr"><div class="ch"><div><div class="ct">/seo-vila-velha</div><div class="cs">🆕 Consultoria de SEO local</div></div><span class="pri p1">🥇 Novo</span></div><div class="fp"><span class="fs lo">Local</span><span class="fs fo">Recorrente</span></div></div>
+  <div class="card ca gr"><div class="ch"><div><div class="ct">/gestao-redes-sociais-vila-velha</div></div><span class="pri p1">🥇</span></div></div>
+  <div class="card ca gr"><div class="ch"><div><div class="ct">/trafego-pago-vila-velha</div></div><span class="pri p1">🥇</span></div></div>
+
+  <div class="sl">Expansão — Vitória (mês 2) · Serra (mês 3) · ES (mês 4+)</div>
+
+  <div class="card ca bl"><div class="ch"><div><div class="ct">/agencia-...-vitoria · /criacao-de-sites-vitoria · /seo-vitoria</div></div><span class="pri p2">Vitória · mês 2</span></div></div>
+  <div class="card ca bl"><div class="ch"><div><div class="ct">/agencia-...-serra · /criacao-de-sites-serra</div></div><span class="pri p2">Serra · mês 3</span></div></div>
+  <div class="card ca"><div class="ch"><div><div class="ct">/agencia-...-es · /criacao-de-sites-espirito-santo</div><div class="cs">Hub estadual — linka pra todas as cidades</div></div><span class="pri p2">ES · mês 4+</span></div></div>
+
+</div>
+
+<!-- ═══════════════ TERMOS ═══════════════ -->
+<div class="pane" id="pane-keywords">
+
+  <div class="sl">Termos novos — criação de sites</div>
+  <div class="ts">
+    <table>
+      <thead><tr><th>Termo</th><th>Vol est.</th><th>Intenção</th><th>Top 1 est.</th><th>Página</th></tr></thead>
+      <tbody>
+        <tr><td class="tb">criação de site para empresa<div class="tsub">Maior volume do portfólio</div></td><td class="tm">~14.000</td><td><span class="tag t-re" style="font-size:10px">Transacional</span></td><td class="tg">~3.920</td><td class="tu">/criacao-de-sites</td></tr>
+        <tr><td class="tb">criar site profissional</td><td class="tm">~8.100</td><td><span class="tag t-re" style="font-size:10px">Transacional</span></td><td class="tg">~2.268</td><td class="tu">/criacao-de-sites</td></tr>
+        <tr><td class="tb">desenvolvimento de site</td><td class="tm">~5.400</td><td><span class="tag t-am" style="font-size:10px">Investigação</span></td><td class="tg">~1.512</td><td class="tu">/criacao-de-sites</td></tr>
+        <tr><td class="tb">site institucional para empresa</td><td class="tm">~3.600</td><td><span class="tag t-re" style="font-size:10px">Transacional</span></td><td class="tg">~1.008</td><td class="tu">/criacao-de-sites</td></tr>
+        <tr><td class="tb">quanto custa criar um site profissional</td><td class="tm">~2.400</td><td><span class="tag t-re" style="font-size:10px">Transacional</span></td><td class="tg">~672</td><td class="tu">artigo blog</td></tr>
+        <tr><td class="tb">criação de site em vila velha</td><td class="tm">baixo</td><td><span class="tag t-gr" style="font-size:10px">Local</span></td><td class="tg">60–90d</td><td class="tu">/criacao-...-vv</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sl" style="margin-top:1.25rem">Termos novos — landing pages</div>
+  <div class="ts">
+    <table>
+      <thead><tr><th>Termo</th><th>Vol est.</th><th>Intenção</th><th>Top 1 est.</th><th>Página</th></tr></thead>
+      <tbody>
+        <tr><td class="tb">criação de landing page<div class="tsub">Lead já anunciante — fit perfeito</div></td><td class="tm">~5.400</td><td><span class="tag t-re" style="font-size:10px">Transacional</span></td><td class="tg">~1.512</td><td class="tu">/criacao-de-landing-pages</td></tr>
+        <tr><td class="tb">landing page profissional</td><td class="tm">~2.900</td><td><span class="tag t-re" style="font-size:10px">Transacional</span></td><td class="tg">~812</td><td class="tu">/criacao-de-landing-pages</td></tr>
+        <tr><td class="tb">landing page para google ads</td><td class="tm">~1.900</td><td><span class="tag t-re" style="font-size:10px">Transacional</span></td><td class="tg">~532</td><td class="tu">artigo blog</td></tr>
+        <tr><td class="tb">o que é landing page</td><td class="tm">~4.400</td><td><span class="tag t-bl" style="font-size:10px">Informacional</span></td><td class="tmu">~1.232</td><td class="tu">artigo blog</td></tr>
+        <tr><td class="tb">landing page vila velha</td><td class="tm">baixo</td><td><span class="tag t-gr" style="font-size:10px">Local</span></td><td class="tg">60–90d</td><td class="tu">/criacao-lp-vv</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sl" style="margin-top:1.25rem">Termos novos — SEO como serviço</div>
+  <div class="ts">
+    <table>
+      <thead><tr><th>Termo</th><th>Vol est.</th><th>Intenção</th><th>Top 1 est.</th><th>Página</th></tr></thead>
+      <tbody>
+        <tr><td class="tb">consultoria de SEO</td><td class="tm">~2.400</td><td><span class="tag t-re" style="font-size:10px">Transacional</span></td><td class="tg">~672</td><td class="tu">/consultoria-seo</td></tr>
+        <tr><td class="tb">agência de SEO</td><td class="tm">~3.600</td><td><span class="tag t-re" style="font-size:10px">Transacional</span></td><td class="tg">~1.008</td><td class="tu">/consultoria-seo</td></tr>
+        <tr><td class="tb">otimização de site para Google</td><td class="tm">~1.900</td><td><span class="tag t-am" style="font-size:10px">Investigação</span></td><td class="tg">~532</td><td class="tu">/consultoria-seo</td></tr>
+        <tr><td class="tb">agência de SEO vila velha</td><td class="tm">baixo</td><td><span class="tag t-gr" style="font-size:10px">Local</span></td><td class="tg">60–90d</td><td class="tu">/seo-vila-velha</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sl" style="margin-top:1.25rem">Termos locais — todas as cidades</div>
+  <div class="ts">
+    <table>
+      <thead><tr><th>Termo</th><th>Concorrência</th><th>Prazo</th><th>Página</th></tr></thead>
+      <tbody>
+        <tr><td class="tb">criação de site vila velha</td><td><span class="tag t-gr" style="font-size:10px">Mínima</span></td><td class="tg">60–90d</td><td class="tu">/criacao-de-sites-vila-velha</td></tr>
+        <tr><td class="tb">agência de marketing digital vila velha</td><td><span class="tag t-gr" style="font-size:10px">Mínima</span></td><td class="tg">60–90d</td><td class="tu">/agencia-...-vila-velha</td></tr>
+        <tr><td class="tb">seo vila velha / agência seo vila velha</td><td><span class="tag t-gr" style="font-size:10px">Mínima</span></td><td class="tg">60–90d</td><td class="tu">/seo-vila-velha</td></tr>
+        <tr><td class="tb">landing page vila velha</td><td><span class="tag t-gr" style="font-size:10px">Mínima</span></td><td class="tg">60–90d</td><td class="tu">/criacao-lp-vv</td></tr>
+        <tr><td class="tb">criação de site vitória es</td><td><span class="tag t-am" style="font-size:10px">Baixa</span></td><td class="tg">90–120d</td><td class="tu">/criacao-de-sites-vitoria</td></tr>
+        <tr><td class="tb">agência de marketing digital vitória es</td><td><span class="tag t-am" style="font-size:10px">Baixa</span></td><td class="tg">90–120d</td><td class="tu">/agencia-...-vitoria</td></tr>
+        <tr><td class="tb">criação de site serra es</td><td><span class="tag t-gr" style="font-size:10px">Mínima</span></td><td class="tg">90d</td><td class="tu">/criacao-de-sites-serra</td></tr>
+        <tr><td class="tb">criação de site espírito santo</td><td><span class="tag t-am" style="font-size:10px">Média</span></td><td class="tmu">120–180d</td><td class="tu">/criacao-...-es</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="notice nw" style="margin-top:1rem">
+    ⚠️ Volumes marcados como "est." são <strong>estimativas ilustrativas</strong>. Valide no Google Keyword Planner ou Ubersuggest antes de apresentar ao cliente.
+  </div>
+
+</div>
+
+<!-- ═══════════════ ARTIGOS ═══════════════ -->
+<div class="pane" id="pane-articles">
+  <div class="kg">
+    <div class="kpi"><div class="kv bl">20</div><div class="kl">artigos total</div></div>
+    <div class="kpi"><div class="kv pu">6</div><div class="kl">artigos novos (sites/LP/SEO)</div></div>
+    <div class="kpi"><div class="kv gr">4</div><div class="kl">artigos locais</div></div>
+    <div class="kpi"><div class="kv am">4</div><div class="kl">artigos de nicho</div></div>
+  </div>
+
+  <div class="sl">Novos artigos — criação de sites e landing pages</div>
+
+  <div class="card ca pu">
+    <div class="ch"><div class="tb">Quanto custa criar um site profissional para empresa?</div><span class="pri pni">Novo</span></div>
+    <div class="cs" style="margin-top:4px">Alta intenção de compra — leva direto para /criacao-de-sites e CTA de orçamento</div>
+    <div class="fp"><span class="fs fo">Fundo de funil</span><span class="fs ni" style="background:var(--purple-bg);color:var(--purple)">Alta conversão</span></div>
+  </div>
+
+  <div class="card ca pu">
+    <div class="ch"><div class="tb">Site profissional para pequenas empresas: o que precisa ter</div><span class="pri pni">Novo</span></div>
+    <div class="cs" style="margin-top:4px">ICP direto — PME que quer criar o primeiro site, muito volume de cauda longa</div>
+    <div class="fp"><span class="fs to">Topo/meio</span><span class="fs ni" style="background:var(--purple-bg);color:var(--purple)">ICP direto</span></div>
+  </div>
+
+  <div class="card ca pu">
+    <div class="ch"><div class="tb">O que é landing page e quando usar (guia para anunciantes)</div><span class="pri pni">Novo</span></div>
+    <div class="cs" style="margin-top:4px">Volume informacional alto — lead de tráfego pago que ainda não sabe que precisa de LP</div>
+    <div class="fp"><span class="fs to">Topo/meio</span><span class="fs fo">Upsell LP + ads</span></div>
+  </div>
+
+  <div class="card ca pu">
+    <div class="ch"><div class="tb">Landing page vs site: qual você precisa para sua campanha?</div><span class="pri pni">Novo</span></div>
+    <div class="cs" style="margin-top:4px">Decisional — lead que já anuncia e quer entender o produto certo pra contratar</div>
+    <div class="fp"><span class="fs fo">Fundo de funil</span><span class="fs">Decisional</span></div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch"><div class="tb">SEO para pequenas empresas: guia completo e prático</div><span class="pri pni">Novo</span></div>
+    <div class="cs" style="margin-top:4px">Leva ao /consultoria-seo — converte quem está pesquisando como melhorar o ranqueamento</div>
+    <div class="fp"><span class="fs to">Topo</span><span class="fs fo">Leva ao serviço</span></div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch"><div class="tb">Vale a pena contratar uma agência de SEO? Quando faz sentido</div><span class="pri pni">Novo</span></div>
+    <div class="cs" style="margin-top:4px">Objeção clássica — leads que pesquisam mas ainda estão em dúvida sobre contratar</div>
+    <div class="fp"><span class="fs fo">Fundo de funil</span><span class="fs">Quebra objeção</span></div>
+  </div>
+
+  <div class="sl">Artigos locais — Vila Velha e ES</div>
+
+  <div class="card ca gr">
+    <div class="ch"><div class="tb">Criação de site em Vila Velha: como escolher a agência certa</div><span class="pri plo">Local</span></div>
+    <div class="cs" style="margin-top:4px">Combina local + intenção de compra — lead pronto para contratar</div>
+    <div class="fp"><span class="fs lo">VV</span><span class="fs fo">Alta conversão</span></div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch"><div class="tb">Marketing digital para empresas de Vila Velha: guia completo</div><span class="pri plo">Local</span></div>
+    <div class="fp"><span class="fs lo">VV · prioridade máxima</span></div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch"><div class="tb">Como escolher uma agência de marketing em Vila Velha</div><span class="pri plo">Local</span></div>
+    <div class="fp"><span class="fs lo">VV</span><span class="fs fo">Fundo de funil</span></div>
+  </div>
+
+  <div class="card ca gr">
+    <div class="ch"><div class="tb">Resultados de marketing digital para empresas do Espírito Santo</div><span class="pri plo">Local</span></div>
+    <div class="fp"><span class="fs lo">ES · prova social</span></div>
+  </div>
+
+  <div class="sl">Artigos de nicho — alta intenção</div>
+
+  <div class="card ca pu"><div class="ch"><div class="tb">Marketing digital para clínicas e consultórios no ES</div><span class="pri pni">Nicho</span></div></div>
+  <div class="card ca pu"><div class="ch"><div class="tb">Marketing digital para construtoras e imobiliárias em Vitória</div><span class="pri pni">Nicho</span></div></div>
+  <div class="card ca pu"><div class="ch"><div class="tb">Marketing digital para restaurantes em Vila Velha</div><span class="pri pni">Nicho</span></div></div>
+  <div class="card ca pu"><div class="ch"><div class="tb">Como aumentar vendas da sua loja no ES com marketing digital</div><span class="pri pni">Nicho</span></div></div>
+
+  <div class="sl">Artigos nacionais — mantidos</div>
+
+  <div class="ts">
+    <table>
+      <thead><tr><th>Título</th><th>Volume est.</th><th>Dific.</th><th>Top 1 est.</th></tr></thead>
+      <tbody>
+        <tr><td><div class="tb">O que é marketing digital?</div><div class="tsub">Topo · longo prazo</div></td><td><div class="bw"><div class="bb"><div class="bf" style="width:95%;background:var(--blue)"></div></div><span class="tm" style="font-size:11px">22.200</span></div></td><td><span class="tag t-re" style="font-size:10px">Alta</span></td><td class="tg">~6.216</td></tr>
+        <tr><td><div class="tb">Google Ads ou Facebook Ads?</div><div class="tsub">Fundo · leva ao /trafego-pago</div></td><td><div class="bw"><div class="bb"><div class="bf" style="width:54%;background:var(--blue)"></div></div><span class="tm" style="font-size:11px">5.800</span></div></td><td><span class="tag t-am" style="font-size:10px">Alta</span></td><td class="tg">~1.624</td></tr>
+        <tr><td><div class="tb">Marketing digital para pequenas empresas</div></td><td><div class="bw"><div class="bb"><div class="bf" style="width:50%;background:var(--blue)"></div></div><span class="tm" style="font-size:11px">5.400</span></div></td><td><span class="tag t-am" style="font-size:10px">Média</span></td><td class="tg">~1.512</td></tr>
+        <tr><td><div class="tb">Como fazer gestão de redes sociais</div></td><td><div class="bw"><div class="bb"><div class="bf" style="width:46%;background:var(--blue)"></div></div><span class="tm" style="font-size:11px">4.400</span></div></td><td><span class="tag t-am" style="font-size:10px">Média</span></td><td class="tg">~1.232</td></tr>
+        <tr><td><div class="tb">Quanto custa contratar uma agência?</div></td><td><div class="bw"><div class="bb"><div class="bf" style="width:32%;background:var(--blue)"></div></div><span class="tm" style="font-size:11px">2.400</span></div></td><td><span class="tag t-am" style="font-size:10px">Média</span></td><td class="tg">~672</td></tr>
+        <tr><td><div class="tb">Quanto tempo leva para ver resultado em SEO?</div></td><td><div class="bw"><div class="bb"><div class="bf" style="width:26%;background:var(--blue)"></div></div><span class="tm" style="font-size:11px">1.900</span></div></td><td><span class="tag t-gr" style="font-size:10px">Baixa</span></td><td class="tg">~532</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ═══════════════ TAREFAS ═══════════════ -->
+<div class="pane" id="pane-tasks">
+  <div class="kg">
+    <div class="kpi"><div class="kv bl">3</div><div class="kl">fases</div></div>
+    <div class="kpi"><div class="kv gr">~14 sem</div><div class="kl">prazo total</div></div>
+    <div class="kpi"><div class="kv d1">Dev 1</div><div class="kl">Tech + SEO Técnico</div></div>
+    <div class="kpi"><div class="kv d2">Dev 2</div><div class="kl">Conteúdo + Local</div></div>
+  </div>
+
+  <!-- FASE 1 -->
+  <div class="sl">Fase 1 — Fundação + Vila Velha · semanas 1–5</div>
+
+  <div class="tc">
+    <div class="th2 dh1">Dev 1 — Estrutura técnica + novas páginas de serviço</div>
+    <div class="tr2"><span class="tt t-re">URGENTE</span><span class="rtext">Criar e verificar Google Business Profile em Vila Velha (3 categorias)</span><span class="pb">sem 1</span></div>
+    <div class="tr2"><span class="tt t-pu">Setup</span><span class="rtext">Repositório, domínio, hosting, CI/CD, design system</span><span class="pb">sem 1</span></div>
+    <div class="tr2"><span class="tt t-am">Dev</span><span class="rtext">Páginas nacionais: Home, /servicos, redes sociais, tráfego pago, SEO, email-mkt</span><span class="pb">sem 2–3</span></div>
+    <div class="tr2"><span class="tt t-am">Dev</span><span class="rtext">🆕 Páginas de novos serviços: /criacao-de-sites, /criacao-de-landing-pages, /consultoria-seo</span><span class="pb">sem 2–3</span></div>
+    <div class="tr2"><span class="tt t-am">Dev</span><span class="rtext">6 páginas locais de Vila Velha (incluindo criacao-de-sites-vv, seo-vv, lp-vv)</span><span class="pb">sem 3–4</span></div>
+    <div class="tr2"><span class="tt t-am">Dev</span><span class="rtext">Google Maps embed em /contato e em todas as páginas locais</span><span class="pb">sem 3</span></div>
+    <div class="tr2"><span class="tt t-re">SEO</span><span class="rtext">Sitemap.xml, robots.txt, canonical tags, Schema LocalBusiness (NAP VV)</span><span class="pb">sem 4</span></div>
+    <div class="tr2"><span class="tt t-re">SEO</span><span class="rtext">Core Web Vitals: lazy load, WebP, compressão, cache headers</span><span class="pb">sem 5</span></div>
+    <div class="tr2"><span class="tt t-pu">Setup</span><span class="rtext">Google Search Console + Analytics 4</span><span class="pb">sem 5</span></div>
+    <div class="tot">~52h estimadas</div>
+  </div>
+
+  <div class="tc">
+    <div class="th2 dh2">Dev 2 — Conteúdo + SEO Local</div>
+    <div class="tr2"><span class="tt t-re">URGENTE</span><span class="rtext">Preencher GBP: fotos de equipe/escritório, todos os 6 serviços, descrição com VV + ES</span><span class="pb">sem 1</span></div>
+    <div class="tr2"><span class="tt t-pu">Pesquisa</span><span class="rtext">Keyword research completo: sites, LPs, SEO, nacional + local VV</span><span class="pb">sem 1</span></div>
+    <div class="tr2"><span class="tt t-pu">Pesquisa</span><span class="rtext">Análise de concorrentes locais em criação de site e SEO no ES</span><span class="pb">sem 1</span></div>
+    <div class="tr2"><span class="tt t-am">Copy</span><span class="rtext">Textos das 3 páginas novas nacionais (criacao-de-sites, LP, consultoria-seo)</span><span class="pb">sem 2</span></div>
+    <div class="tr2"><span class="tt t-am">Copy</span><span class="rtext">Textos das 6 páginas locais VV (únicos, não copiar do nacional)</span><span class="pb">sem 2–3</span></div>
+    <div class="tr2"><span class="tt t-am">Copy</span><span class="rtext">Textos das demais páginas nacionais (H1, meta, corpo)</span><span class="pb">sem 3–4</span></div>
+    <div class="tr2"><span class="tt t-re">SEO</span><span class="rtext">Title tags locais: "Criação de Sites em Vila Velha – ES | [Agência]"</span><span class="pb">sem 4</span></div>
+    <div class="tr2"><span class="tt t-gr">Link</span><span class="rtext">Bing Places, Apple Maps, diretórios locais ES, CDL Vila Velha</span><span class="pb">sem 4–5</span></div>
+    <div class="tr2"><span class="tt t-gr">Link</span><span class="rtext">Internal linking: serviços nacionais ↔ locais ↔ artigos</span><span class="pb">sem 5</span></div>
+    <div class="tot">~46h estimadas</div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="sl">Fase 2 — Blog + Expansão de Cidades · semanas 6–10</div>
+
+  <div class="tc">
+    <div class="th2 dh1">Dev 1 — Blog + novas cidades</div>
+    <div class="tr2"><span class="tt t-am">Dev</span><span class="rtext">Template de artigo (breadcrumb, TOC, CTA localizado)</span><span class="pb">sem 6</span></div>
+    <div class="tr2"><span class="tt t-re">SEO</span><span class="rtext">Article schema + OG tags + Twitter Cards + WebP/srcset</span><span class="pb">sem 6–7</span></div>
+    <div class="tr2"><span class="tt t-am">Dev</span><span class="rtext">Páginas de Vitória: agencia, criacao-de-sites, seo</span><span class="pb">sem 7–8</span></div>
+    <div class="tr2"><span class="tt t-am">Dev</span><span class="rtext">Páginas de Serra: agencia, criacao-de-sites</span><span class="pb">sem 9</span></div>
+    <div class="tot">~30h estimadas</div>
+  </div>
+
+  <div class="tc">
+    <div class="th2 dh2">Dev 2 — Artigos novos + locais</div>
+    <div class="tr2"><span class="tt t-pu">Novo</span><span class="rtext">Quanto custa criar um site profissional?</span><span class="pb">sem 6</span></div>
+    <div class="tr2"><span class="tt t-pu">Novo</span><span class="rtext">O que é landing page e quando usar</span><span class="pb">sem 6</span></div>
+    <div class="tr2"><span class="tt t-pu">Novo</span><span class="rtext">Landing page vs site: qual preciso para minha campanha?</span><span class="pb">sem 7</span></div>
+    <div class="tr2"><span class="tt t-pu">Novo</span><span class="rtext">Site profissional para pequenas empresas: o que precisa ter</span><span class="pb">sem 7</span></div>
+    <div class="tr2"><span class="tt t-gr">Novo</span><span class="rtext">SEO para pequenas empresas: guia completo</span><span class="pb">sem 8</span></div>
+    <div class="tr2"><span class="tt t-gr">Novo</span><span class="rtext">Vale a pena contratar uma agência de SEO?</span><span class="pb">sem 8</span></div>
+    <div class="tr2"><span class="tt t-gr">Local</span><span class="rtext">Criação de site em Vila Velha: como escolher a agência certa</span><span class="pb">sem 7</span></div>
+    <div class="tr2"><span class="tt t-gr">Local</span><span class="rtext">Marketing digital para empresas de VV + como escolher agência VV</span><span class="pb">sem 8–9</span></div>
+    <div class="tr2"><span class="tt t-pu">Nicho</span><span class="rtext">Artigos de nicho (4): clínicas, imobiliárias, restaurantes VV, PME ES</span><span class="pb">sem 8–10</span></div>
+    <div class="tr2"><span class="tt t-pu">GBP</span><span class="rtext">1 post/semana no Google Business Profile (prints de resultados, sites criados)</span><span class="pb">contínuo</span></div>
+    <div class="tot">~62h estimadas</div>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="sl">Fase 3 — Autoridade + ES Completo · semanas 11–14</div>
+
+  <div class="tc">
+    <div class="th2 dh1">Dev 1 — SEO técnico avançado</div>
+    <div class="tr2"><span class="tt t-re">SEO</span><span class="rtext">Auditoria técnica completa (Screaming Frog)</span><span class="pb">sem 11</span></div>
+    <div class="tr2"><span class="tt t-re">SEO</span><span class="rtext">Correção de redirects, 404s, links quebrados</span><span class="pb">sem 11</span></div>
+    <div class="tr2"><span class="tt t-pu">Perf</span><span class="rtext">Core Web Vitals: LCP, CLS, FID nas novas páginas</span><span class="pb">sem 12</span></div>
+    <div class="tr2"><span class="tt t-am">Dev</span><span class="rtext">Hubs estaduais: /agencia-...-es · /criacao-de-sites-espirito-santo</span><span class="pb">sem 12–13</span></div>
+    <div class="tot">~24h estimadas</div>
+  </div>
+
+  <div class="tc">
+    <div class="th2 dh2">Dev 2 — Link building local + autoridade</div>
+    <div class="tr2"><span class="tt t-gr">Link</span><span class="rtext">Outreach: A Gazeta ES, Século Diário, CDL VV, Acies, portais de negócios ES</span><span class="pb">sem 11</span></div>
+    <div class="tr2"><span class="tt t-gr">Link</span><span class="rtext">Guest posts em blogs de empreendedorismo e negócios do ES</span><span class="pb">sem 11–12</span></div>
+    <div class="tr2"><span class="tt t-am">Copy</span><span class="rtext">Artigos nacionais lote final: marketing digital, Google vs Meta, KPIs</span><span class="pb">sem 12–13</span></div>
+    <div class="tr2"><span class="tt t-am">Copy</span><span class="rtext">Atualizar artigos locais com dados e screenshots de resultados reais</span><span class="pb">sem 13</span></div>
+    <div class="tr2"><span class="tt t-pu">Análise</span><span class="rtext">Relatório final: posições GSC, GBP insights por cidade, leads gerados por serviço</span><span class="pb">sem 14</span></div>
+    <div class="tot">~26h estimadas</div>
+  </div>
+
+  <div class="sl" style="margin-top:.5rem">Ferramentas</div>
+  <div class="card">
+    <div class="tags">
+      <span class="tag t-re">Google Business Profile</span>
+      <span class="tag t-pu">Google Search Console</span>
+      <span class="tag t-pu">Google Analytics 4</span>
+      <span class="tag t-am">Ubersuggest</span>
+      <span class="tag t-am">Screaming Frog</span>
+      <span class="tag t-gr">Ahrefs / Semrush</span>
+      <span class="tag t-gr">Google PageSpeed</span>
+      <span class="tag t-gy">Bing Places</span>
+      <span class="tag t-gy">Notion</span>
+      <span class="tag t-gy">Figma</span>
+    </div>
+  </div>
+
+  <div class="notice nw">
+    ⚠️ <strong>Volumes marcados como estimativas.</strong> Valide todos os termos no Google Keyword Planner antes de apresentar ao cliente. Os termos locais têm volume menor mas conversão 3–5× maior — não subestime pelo número baixo.
+  </div>
+
+</div>
+
+<script>
+function show(tab,btn){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('pane-'+tab).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

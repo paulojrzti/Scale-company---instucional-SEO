@@ -1,0 +1,34 @@
+---
+/**
+ * Home — /
+ * Hub principal: menciona os 6 serviços e VV/ES
+ * Target: "agência de marketing digital", "agência de marketing digital vila velha"
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import ServicesGrid from '@components/sections/ServicesGrid.astro';
+import Testimonials from '@components/sections/Testimonials.astro';
+import LocalCTA from '@components/sections/LocalCTA.astro';
+---
+
+<BaseLayout
+  title="Agência de Marketing Digital em Vila Velha – ES | Scale"
+  description="Scale é a agência de marketing digital em Vila Velha (ES) especializada em criação de sites, tráfego pago, SEO e redes sociais. Resultados reais para empresas locais."
+>
+  <Hero
+    title="Marketing Digital que <em>gera resultado</em> para sua empresa"
+    subtitle="Criação de sites, tráfego pago, SEO e redes sociais — tudo em uma agência em Vila Velha, ES."
+    badgeText="Agência em Vila Velha – ES"
+    ctaPrimary={{ label: 'Solicitar orçamento grátis', href: '/contato' }}
+    ctaSecondary={{ label: 'Ver nossos serviços', href: '/servicos' }}
+  />
+
+  <ServicesGrid
+    title="Serviços para crescer online"
+    subtitle="Do site ao tráfego pago: tudo que sua empresa precisa para dominar o digital."
+  />
+
+  <Testimonials />
+
+  <LocalCTA city="Vila Velha" />
+</BaseLayout>

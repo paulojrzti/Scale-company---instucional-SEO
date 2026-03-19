@@ -1,0 +1,27 @@
+---
+interface Props {
+  src?: string;
+  title?: string;
+  height?: number;
+}
+
+const {
+  src = 'https://www.google.com/maps/embed?pb=TODO_substituir_pelo_embed_real',
+  title = 'Scale — Vila Velha, ES',
+  height = 400,
+} = Astro.props;
+---
+
+<div class="rounded-xl overflow-hidden border border-edge bg-surface-subtle">
+  <iframe
+    src={src}
+    width="100%"
+    height={height}
+    style="border:0;"
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    title={title}
+    class="block"
+  ></iframe>
+</div>

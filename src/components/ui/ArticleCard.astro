@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Badge from './Badge.astro';
+
+interface Props {
+  article: CollectionEntry<'blog'>;
+}
+
+const { article } = Astro.props;
+const { title, description, publishDate, coverImage, coverImageAlt, category } = article.data;
+
+const formattedDate = publishDate.toLocaleDateString('pt-BR', {
+  day: '2-digit', month: 'long', year: 'numeric',
+});
+---
+
+<a href={`/blog/${article.slug}`} class="group bg-surface-card border border-edge rounded-xl overflow-hidden flex flex-col hover:shadow-md transition-shadow duration-200">
+  {coverImage && (
+    <div class="aspect-video bg-surface-subtle overflow-hidden">
+      <img
+        src={coverImage}
+        alt={coverImageAlt ?? title}
+        loading="lazy"
+        decoding="async"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+      />
+    </div>
+  )}
+
+  <div class="p-5 flex flex-col flex-1">
+    <div class="flex items-center gap-3 mb-3">
+      <Badge variant="subtle">{category}</Badge>
+      <time class="text-xs text-ink-light" datetime={publishDate.toISOString()}>{formattedDate}</time>
+    </div>
+
+    <h3 class="font-heading text-lg font-bold text-ink mb-2 leading-snug group-hover:text-brand-primary transition-colors">
+      {title}
+    </h3>
+    <p class="text-sm text-ink-light leading-relaxed flex-1">{description}</p>
+  </div>
+</a>

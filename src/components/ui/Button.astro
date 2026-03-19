@@ -1,0 +1,62 @@
+---
+/**
+ * Button.astro — Botão reutilizável
+ * @example
+ * <Button href="/contato">Falar com especialista</Button>
+ * <Button variant="outline" size="sm">Saiba mais</Button>
+ */
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'outline' | 'ghost';
+  size?: 'sm' | 'base' | 'lg';
+  full?: boolean;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'base',
+  full = false,
+  disabled = false,
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const base = 'inline-flex items-center justify-center gap-2 font-semibold rounded-lg border-2 transition-colors duration-150 whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary';
+
+const variants = {
+  primary: 'bg-brand-primary border-brand-primary text-ink-inverse hover:bg-brand-secondary hover:border-brand-secondary',
+  outline: 'bg-transparent border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-ink-inverse',
+  ghost:   'bg-transparent border-transparent text-brand-primary hover:bg-surface-subtle',
+};
+
+const sizes = {
+  sm:   'px-4 py-2 text-sm',
+  base: 'px-6 py-3 text-base',
+  lg:   'px-8 py-4 text-lg',
+};
+
+const classes = [
+  base,
+  variants[variant],
+  sizes[size],
+  full && 'w-full',
+  disabled && 'opacity-50 pointer-events-none',
+  className,
+].filter(Boolean).join(' ');
+---
+
+{href ? (
+  <a href={href} class={classes} {...rest}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={classes} disabled={disabled} {...rest}>
+    <slot />
+  </button>
+)}

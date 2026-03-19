@@ -1,0 +1,86 @@
+---
+/**
+ * Criação de Sites — /servicos/criacao-de-sites
+ * Maior volume do portfólio: ~33k buscas/mês est.
+ * Keywords: "criação de site para empresa", "criar site profissional", "desenvolvimento de site"
+ */
+import ServiceLayout from '@layouts/ServiceLayout.astro';
+import LocalCTA from '@components/sections/LocalCTA.astro';
+import FAQ from '@components/sections/FAQ.astro';
+import { getServiceBySlug } from '@data/services';
+
+const service = getServiceBySlug('criacao-de-sites')!;
+
+const faqs = [
+  {
+    question: 'Quanto custa criar um site profissional para empresa?',
+    answer: 'O custo varia conforme o escopo do projeto. Sites institucionais completos, com SEO técnico e CMS incluso, podem partir de R$X.XXX. Entre em contato para um orçamento personalizado.',
+  },
+  {
+    question: 'Quanto tempo leva para criar um site?',
+    answer: 'Projetos padrão são entregues em 20 a 30 dias úteis. O prazo depende da agilidade na entrega de textos, imagens e feedbacks.',
+  },
+  {
+    question: 'O site inclui SEO?',
+    answer: 'Sim. Todo site criado pela Scale já sai otimizado tecnicamente: velocidade, meta tags, sitemap, schema e responsividade — base para ranquear no Google.',
+  },
+  {
+    question: 'Posso editar o site depois?',
+    answer: 'Sim. Entregamos um CMS simples que permite editar textos, imagens e páginas sem precisar de programação.',
+  },
+];
+---
+
+<ServiceLayout
+  title="Criação de Sites para Empresas | Scale — Vila Velha – ES"
+  description="Crie um site profissional, responsivo e otimizado para o Google com a Scale. Sites institucionais com SEO técnico e CMS incluso. Vila Velha e todo o Brasil."
+  service={service}
+>
+  <!-- Hero da página de serviço -->
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+            Criação de Sites Profissionais para Empresas
+          </h1>
+          <p class="text-lg text-ink-light leading-relaxed mb-8">
+            Sites responsivos, rápidos e otimizados para o Google — com CMS incluso para você editar sem precisar de programação.
+          </p>
+          <div class="flex gap-4 flex-wrap">
+            <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary border-2 border-brand-primary transition-colors">
+              Solicitar orçamento
+            </a>
+            <a href="/vila-velha/criacao-de-sites" class="px-8 py-4 text-lg font-semibold rounded-lg border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-ink-inverse transition-colors">
+              Criação de site em Vila Velha
+            </a>
+          </div>
+        </div>
+        <div class="hidden lg:block">
+          <!-- TODO: screenshot/mockup de site criado pela Scale -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefícios -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">O que inclui</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- TODO: preencher com os diferenciais reais -->
+        {['Design responsivo', 'SEO técnico incluso', 'CMS para edição fácil', 'Velocidade otimizada', 'SSL e segurança', 'Suporte pós-entrega'].map((item) => (
+          <div class="flex items-center gap-3 p-4 rounded-lg border border-edge bg-surface-card">
+            <span class="text-brand-primary text-xl">✓</span>
+            <p class="font-semibold text-ink">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FAQ items={faqs} />
+  <LocalCTA city="Vila Velha" service="Criação de Sites" />
+</ServiceLayout>

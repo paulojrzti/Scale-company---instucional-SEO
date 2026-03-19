@@ -1,0 +1,40 @@
+---
+/**
+ * SchemaService.astro — Schema JSON-LD para páginas de serviço
+ * Incluído automaticamente pelo ServiceLayout.astro
+ */
+import type { Service } from '@data/services';
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const siteUrl = import.meta.env.SITE || 'https://scaleco.com.br';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${siteUrl}/servicos/${service.slug}`,
+  name: service.name,
+  description: service.description,
+  url: `${siteUrl}/servicos/${service.slug}`,
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'Scale',
+    url: siteUrl,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Vila Velha',
+      addressRegion: 'ES',
+      addressCountry: 'BR',
+    },
+  },
+  areaServed: {
+    '@type': 'Country',
+    name: 'Brazil',
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

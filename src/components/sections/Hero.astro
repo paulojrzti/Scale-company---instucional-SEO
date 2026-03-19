@@ -1,0 +1,53 @@
+---
+import Button from '@components/ui/Button.astro';
+import Badge from '@components/ui/Badge.astro';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  badgeText?: string;
+  ctaPrimary?: { label: string; href: string };
+  ctaSecondary?: { label: string; href: string };
+  city?: string;
+}
+
+const { title, subtitle, badgeText, ctaPrimary, ctaSecondary, city } = Astro.props;
+---
+
+<section class="py-24 text-center">
+  <div class="container">
+    {badgeText && (
+      <div class="mb-5">
+        <Badge variant={city ? 'local' : 'primary'}>{badgeText}</Badge>
+      </div>
+    )}
+
+    <h1
+      class="font-heading text-5xl md:text-4xl font-extrabold text-ink leading-tight max-w-4xl mx-auto mb-6"
+      set:html={title}
+    />
+
+    {subtitle && (
+      <p class="text-xl text-ink-light leading-relaxed max-w-xl mx-auto mb-8">
+        {subtitle}
+      </p>
+    )}
+
+    {(ctaPrimary || ctaSecondary) && (
+      <div class="flex items-center justify-center gap-4 flex-wrap">
+        {ctaPrimary && (
+          <Button href={ctaPrimary.href} variant="primary" size="lg">
+            {ctaPrimary.label}
+          </Button>
+        )}
+        {ctaSecondary && (
+          <Button href={ctaSecondary.href} variant="outline" size="lg">
+            {ctaSecondary.label}
+          </Button>
+        )}
+      </div>
+    )}
+
+    <slot />
+  </div>
+</section>

@@ -1,0 +1,98 @@
+---
+import { mainNav, ctaNav } from '@data/navigation';
+
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<!-- Hambúrguer (só mobile) -->
+<button
+  id="nav-toggle"
+  class="md:hidden flex flex-col gap-1.5 p-2 rounded-md hover:bg-surface-subtle transition-colors"
+  aria-label="Abrir menu"
+  aria-expanded="false"
+  aria-controls="main-nav"
+>
+  <span class="block w-5 h-0.5 bg-ink rounded-full transition-transform duration-200"></span>
+  <span class="block w-5 h-0.5 bg-ink rounded-full transition-opacity duration-200"></span>
+  <span class="block w-5 h-0.5 bg-ink rounded-full transition-transform duration-200"></span>
+</button>
+
+<!-- Nav — slide-out no mobile, row no desktop -->
+<nav
+  id="main-nav"
+  role="navigation"
+  aria-label="Menu principal"
+  class="
+    fixed top-0 right-0 h-dvh w-[min(280px,80vw)]
+    bg-surface-card shadow-xl z-[300]
+    flex flex-col items-start gap-1
+    pt-20 px-6 pb-8 overflow-y-auto
+    md:static md:h-auto md:w-auto md:shadow-none
+    md:flex-row md:items-center
+    md:pt-0 md:px-0 md:pb-0
+  "
+>
+  {mainNav.map((item) => (
+    <a
+      href={item.href}
+      class:list={[
+        'px-3 py-2 text-sm font-medium rounded-lg transition-colors w-full md:w-auto',
+        isActive(item.href)
+          ? 'text-brand-primary font-semibold'
+          : 'text-ink-mid hover:text-ink hover:bg-surface-subtle',
+      ]}
+      aria-current={isActive(item.href) ? 'page' : undefined}
+    >
+      {item.label}
+    </a>
+  ))}
+
+  <a
+    href={ctaNav.href}
+    class="mt-4 md:mt-0 md:ml-2 px-4 py-2 text-sm font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary transition-colors whitespace-nowrap"
+  >
+    {ctaNav.label}
+  </a>
+</nav>
+
+<!-- Overlay mobile -->
+<div
+  id="nav-overlay"
+  class="fixed inset-0 bg-black/40 z-[250] hidden md:hidden"
+  aria-hidden="true"
+></div>
+
+<script>
+  const toggle   = document.getElementById('nav-toggle');
+  const nav      = document.getElementById('main-nav');
+  const overlay  = document.getElementById('nav-overlay');
+
+  function openNav() {
+    nav?.classList.add('nav-open');
+    overlay?.classList.remove('hidden');
+    toggle?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    nav?.classList.remove('nav-open');
+    overlay?.classList.add('hidden');
+    toggle?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  toggle?.addEventListener('click', () => {
+    nav?.classList.contains('nav-open') ? closeNav() : openNav();
+  });
+
+  overlay?.addEventListener('click', closeNav);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeNav();
+  });
+</script>

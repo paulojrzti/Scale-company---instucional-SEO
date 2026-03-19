@@ -1,0 +1,32 @@
+---
+/**
+ * LocalLayout.astro — Layout para páginas locais de cidade
+ * Ex: /vila-velha, /vila-velha/criacao-de-sites, /vitoria/seo
+ *
+ * Inclui Schema JSON-LD LocalBusiness automaticamente.
+ * NAP deve ser consistente com o Google Business Profile.
+ */
+import BaseLayout from './BaseLayout.astro';
+import SchemaLocalBusiness from '@components/seo/SchemaLocalBusiness.astro';
+import type { City } from '@data/cities';
+
+interface Props {
+  title: string;
+  description: string;
+  city: City;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const { title, description, city, canonical, ogImage } = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+>
+  <SchemaLocalBusiness slot="head" city={city} />
+  <slot />
+</BaseLayout>

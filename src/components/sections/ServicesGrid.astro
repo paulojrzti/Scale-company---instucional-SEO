@@ -1,0 +1,29 @@
+---
+import ServiceCard from '@components/ui/ServiceCard.astro';
+import { services } from '@data/services';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  showLink?: boolean;
+}
+
+const { title = 'Nossos Serviços', subtitle, showLink = true } = Astro.props;
+---
+
+<section class="section bg-surface-subtle">
+  <div class="container">
+    {(title || subtitle) && (
+      <div class="section-header">
+        {title && <h2 class="section-title">{title}</h2>}
+        {subtitle && <p class="section-subtitle">{subtitle}</p>}
+      </div>
+    )}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {services.map((service) => (
+        <ServiceCard service={service} showLink={showLink} />
+      ))}
+    </div>
+  </div>
+</section>

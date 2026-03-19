@@ -1,0 +1,65 @@
+---
+interface Props {
+  preselectedService?: string;
+  city?: string;
+}
+
+const { preselectedService, city } = Astro.props;
+import { services } from '@data/services';
+
+const inputClass = 'w-full px-4 py-3 text-base text-ink bg-surface-card border border-edge rounded-lg transition-shadow focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-brand-primary placeholder:text-ink-light';
+const labelClass = 'block text-sm font-medium text-ink mb-2';
+---
+
+<form
+  class="space-y-5"
+  name="contato"
+  method="POST"
+  data-netlify="true"
+  action="/obrigado"
+>
+  <input type="hidden" name="form-name" value="contato" />
+  {city && <input type="hidden" name="cidade" value={city} />}
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <div>
+      <label for="nome" class={labelClass}>Nome <span class="text-red-500">*</span></label>
+      <input type="text" id="nome" name="nome" class={inputClass} placeholder="Seu nome completo" required autocomplete="name" />
+    </div>
+    <div>
+      <label for="empresa" class={labelClass}>Empresa</label>
+      <input type="text" id="empresa" name="empresa" class={inputClass} placeholder="Nome da empresa" autocomplete="organization" />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <div>
+      <label for="email" class={labelClass}>Email <span class="text-red-500">*</span></label>
+      <input type="email" id="email" name="email" class={inputClass} placeholder="seu@email.com" required autocomplete="email" />
+    </div>
+    <div>
+      <label for="telefone" class={labelClass}>WhatsApp / Telefone</label>
+      <input type="tel" id="telefone" name="telefone" class={inputClass} placeholder="(27) 99999-9999" autocomplete="tel" />
+    </div>
+  </div>
+
+  <div>
+    <label for="servico" class={labelClass}>Serviço de interesse</label>
+    <select id="servico" name="servico" class={inputClass}>
+      <option value="">Selecione um serviço</option>
+      {services.map((s) => (
+        <option value={s.id} selected={s.id === preselectedService}>{s.name}</option>
+      ))}
+      <option value="outros">Outros / Não sei ainda</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="mensagem" class={labelClass}>Mensagem</label>
+    <textarea id="mensagem" name="mensagem" class={`${inputClass} min-h-[120px] resize-y`} placeholder="Conte sobre seu projeto ou dúvida..." rows="4"></textarea>
+  </div>
+
+  <button type="submit" class="px-8 py-4 font-semibold text-base rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary transition-colors border-2 border-brand-primary">
+    Enviar mensagem
+  </button>
+</form>

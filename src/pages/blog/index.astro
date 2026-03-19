@@ -1,0 +1,44 @@
+---
+/**
+ * Blog — /blog
+ * Listagem de todos os artigos (Astro Content Collections)
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ArticleCard from '@components/ui/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+const articles = (await getCollection('blog')).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+---
+
+<BaseLayout
+  title="Blog de Marketing Digital | Scale — Dicas e Estratégias"
+  description="Aprenda marketing digital, criação de sites, SEO, tráfego pago e mais. Conteúdo prático para empresas que querem crescer online."
+>
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <span class="section-label">Blog</span>
+      <h1 class="section-title">Marketing Digital na Prática</h1>
+      <p class="section-subtitle">
+        Guias, estratégias e dicas para empresas que querem crescer online.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {articles.length === 0 ? (
+        <p class="text-center text-ink-light py-16">
+          Artigos em breve.
+        </p>
+      ) : (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {articles.map((article) => (
+            <ArticleCard article={article} />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

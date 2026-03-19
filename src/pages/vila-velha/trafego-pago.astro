@@ -1,0 +1,35 @@
+---
+import LocalLayout from '@layouts/LocalLayout.astro';
+import { getCityBySlug } from '@data/cities';
+const city = getCityBySlug('vila-velha')!;
+---
+<LocalLayout
+  title="Tráfego Pago em Vila Velha – ES | Google Ads e Meta Ads | Scale"
+  description="Gestão de Google Ads e Meta Ads para empresas de Vila Velha (ES). Foco em ROAS e leads qualificados. (27) XXXX-XXXX."
+  city={city}
+>
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <span class="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+        📍 Vila Velha – ES
+      </span>
+      <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+        Tráfego Pago em Vila Velha – ES
+      </h1>
+      <p class="text-lg text-ink-light leading-relaxed mb-8 max-w-2xl">
+        Gestão de Google Ads e Meta Ads para empresas de Vila Velha — com foco em ROAS e clientes reais, não apenas cliques.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary border-2 border-brand-primary transition-colors">
+          Diagnóstico de campanhas grátis
+        </a>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container-narrow">
+      <!-- TODO: Dev 2 preenche com conteúdo exclusivo -->
+      <p class="text-ink-light leading-relaxed">Conteúdo exclusivo a ser criado.</p>
+    </div>
+  </section>
+</LocalLayout>

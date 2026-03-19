@@ -1,0 +1,38 @@
+---
+interface Props {
+  city?: string;
+  service?: string;
+  title?: string;
+  subtitle?: string;
+}
+
+const { city = 'Vila Velha', service, title, subtitle } = Astro.props;
+
+const defaultTitle = service
+  ? `Precisa de ${service} em ${city}?`
+  : `Sua empresa em ${city} merece crescer online`;
+
+const defaultSubtitle = `Fale com a Scale — agência de marketing digital em ${city}, ES. Atendimento direto, sem intermediários.`;
+---
+
+<section class="section bg-surface-subtle">
+  <div class="container-narrow text-center">
+
+    <span class="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+      📍 {city} – ES
+    </span>
+
+    <h2 class="section-title mb-4">{title ?? defaultTitle}</h2>
+    <p class="section-subtitle mb-8">{subtitle ?? defaultSubtitle}</p>
+
+    <div class="flex gap-4 justify-center flex-wrap">
+      <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary transition-colors border-2 border-brand-primary">
+        Solicitar orçamento grátis
+      </a>
+      <a href="https://wa.me/5527XXXXXXXX" class="px-8 py-4 text-lg font-semibold rounded-lg border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-ink-inverse transition-colors">
+        WhatsApp
+      </a>
+    </div>
+
+  </div>
+</section>

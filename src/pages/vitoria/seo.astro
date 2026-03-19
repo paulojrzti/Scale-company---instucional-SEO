@@ -1,0 +1,29 @@
+---
+import LocalLayout from '@layouts/LocalLayout.astro';
+import { getCityBySlug } from '@data/cities';
+const city = getCityBySlug('vitoria')!;
+---
+<LocalLayout
+  title="Agência de SEO em Vitória – ES | Scale"
+  description="Consultoria de SEO em Vitória (ES). Apareça na 1ª página do Google. Diagnóstico gratuito. (27) XXXX-XXXX."
+  city={city}
+>
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <span class="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+        📍 Vitória – ES
+      </span>
+      <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+        SEO em Vitória – ES
+      </h1>
+      <p class="text-lg text-ink-light leading-relaxed mb-8 max-w-2xl">
+        Consultoria de SEO para empresas de Vitória — posicionamento na 1ª página do Google para clientes locais.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary border-2 border-brand-primary transition-colors">
+          Diagnóstico gratuito
+        </a>
+      </div>
+    </div>
+  </section>
+</LocalLayout>

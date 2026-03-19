@@ -1,0 +1,48 @@
+---
+/** Hub Espírito Santo — /espirito-santo · Fase 3 (mês 4+) */
+import LocalLayout from '@layouts/LocalLayout.astro';
+import { getCityBySlug } from '@data/cities';
+const city = getCityBySlug('espirito-santo')!;
+
+const cities = [
+  { href: '/vila-velha', name: 'Vila Velha' },
+  { href: '/vitoria', name: 'Vitória' },
+  { href: '/serra', name: 'Serra' },
+  { href: '/espirito-santo/criacao-de-sites', name: 'Todo o ES' },
+];
+---
+<LocalLayout
+  title="Agência de Marketing Digital no Espírito Santo | Scale"
+  description="Scale: agência de marketing digital no Espírito Santo (ES). Atendemos Vila Velha, Vitória, Serra e todo o estado."
+  city={city}
+>
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <span class="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+        📍 Espírito Santo
+      </span>
+      <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+        Agência de Marketing Digital no Espírito Santo
+      </h1>
+      <p class="text-lg text-ink-light leading-relaxed mb-8 max-w-2xl">
+        Atendemos empresas de todo o Espírito Santo: Vila Velha, Vitória, Serra, Cachoeiro, Linhares e mais.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary border-2 border-brand-primary transition-colors">
+          Solicitar orçamento
+        </a>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {cities.map((c) => (
+          <a href={c.href} class="block p-5 rounded-xl border border-edge bg-surface-card hover:border-brand-primary hover:shadow-md transition-all text-center">
+            <p class="font-semibold text-ink">{c.name}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</LocalLayout>

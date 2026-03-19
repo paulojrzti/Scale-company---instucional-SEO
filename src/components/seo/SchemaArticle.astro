@@ -1,0 +1,45 @@
+---
+/**
+ * SchemaArticle.astro — Schema JSON-LD para artigos do blog
+ * Incluído automaticamente pelo BlogLayout.astro
+ */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  article: CollectionEntry<'blog'>;
+}
+
+const { article } = Astro.props;
+const siteUrl = import.meta.env.SITE || 'https://scaleco.com.br';
+const { title, description, publishDate, updatedDate, coverImage } = article.data;
+
+const articleUrl = `${siteUrl}/blog/${article.slug}`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': articleUrl,
+  headline: title,
+  description,
+  url: articleUrl,
+  datePublished: publishDate.toISOString(),
+  dateModified: (updatedDate ?? publishDate).toISOString(),
+  image: coverImage ? new URL(coverImage, siteUrl).href : undefined,
+  author: {
+    '@type': 'Organization',
+    name: 'Scale',
+    url: siteUrl,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Scale',
+    url: siteUrl,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteUrl}/assets/brand/logo.png`,
+    },
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

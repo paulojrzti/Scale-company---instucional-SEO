@@ -1,0 +1,45 @@
+---
+/**
+ * Contato — /contato
+ * Inclui endereço NAP, Google Maps embed e formulário
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ContactForm from '@components/sections/ContactForm.astro';
+import MapEmbed from '@components/ui/MapEmbed.astro';
+---
+
+<BaseLayout
+  title="Contato | Scale — Agência de Marketing Digital em Vila Velha – ES"
+  description="Fale com a Scale. Agência de marketing digital em Vila Velha, ES. (27) XXXX-XXXX. Atendimento de segunda a sexta, das 9h às 18h."
+>
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div>
+          <span class="section-label">Fale conosco</span>
+          <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+            Vamos conversar sobre seu projeto?
+          </h1>
+          <p class="text-lg text-ink-light leading-relaxed mb-8">
+            Preencha o formulário e entraremos em contato em até 24 horas úteis.
+          </p>
+
+          <ContactForm />
+        </div>
+
+        <div>
+          <!-- NAP — deve ser IDÊNTICO ao Google Business Profile -->
+          <address class="not-italic mb-8">
+            <p class="font-semibold text-ink mb-3">Scale Marketing Digital</p>
+            <!-- TODO: endereço completo -->
+            <p class="text-ink-light mb-2">Vila Velha – ES</p>
+            <p class="text-ink-light mb-2">(27) XXXX-XXXX</p>
+            <p class="text-ink-light">contato@scale.com.br</p>
+          </address>
+
+          <MapEmbed title="Scale — Vila Velha, ES" />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+/**
+ * Consultoria SEO — /servicos/consultoria-seo
+ * Keywords: "consultoria de SEO", "agência de SEO", "otimização de site para Google"
+ */
+import ServiceLayout from '@layouts/ServiceLayout.astro';
+import LocalCTA from '@components/sections/LocalCTA.astro';
+import { getServiceBySlug } from '@data/services';
+
+const service = getServiceBySlug('seo')!;
+---
+
+<ServiceLayout
+  title="Consultoria de SEO | Scale — Agência de SEO em Vila Velha – ES"
+  description="Consultoria e gestão mensal de SEO: auditoria técnica, otimização on-page, produção de conteúdo e link building. Apareça na 1ª página do Google."
+  service={service}
+>
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+        Consultoria de SEO que posiciona sua empresa no Google
+      </h1>
+      <p class="text-lg text-ink-light leading-relaxed mb-8 max-w-2xl">
+        Auditoria técnica, otimização de páginas, conteúdo estratégico e link building — tudo para sua empresa aparecer na 1ª página do Google.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary border-2 border-brand-primary transition-colors">
+          Solicitar diagnóstico gratuito
+        </a>
+        <a href="/vila-velha/seo" class="px-8 py-4 text-lg font-semibold rounded-lg border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-ink-inverse transition-colors">
+          SEO em Vila Velha
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <LocalCTA city="Vila Velha" service="SEO" />
+</ServiceLayout>

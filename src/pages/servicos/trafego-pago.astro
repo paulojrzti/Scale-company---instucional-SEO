@@ -1,0 +1,31 @@
+---
+import ServiceLayout from '@layouts/ServiceLayout.astro';
+import LocalCTA from '@components/sections/LocalCTA.astro';
+import { getServiceBySlug } from '@data/services';
+const service = getServiceBySlug('trafego-pago')!;
+---
+<ServiceLayout
+  title="Gestão de Tráfego Pago — Google Ads e Meta Ads | Scale"
+  description="Gestão profissional de Google Ads e Meta Ads com foco em ROAS. Relatórios mensais e otimização contínua. Agência de tráfego pago em Vila Velha – ES."
+  service={service}
+>
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+        Tráfego Pago que gera clientes, não só cliques
+      </h1>
+      <p class="text-lg text-ink-light leading-relaxed mb-8 max-w-2xl">
+        Google Ads, Meta Ads e relatórios de performance com foco em ROAS — para seu investimento virar resultado real.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary border-2 border-brand-primary transition-colors">
+          Solicitar diagnóstico gratuito
+        </a>
+        <a href="/vila-velha/trafego-pago" class="px-8 py-4 text-lg font-semibold rounded-lg border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-ink-inverse transition-colors">
+          Tráfego pago em Vila Velha
+        </a>
+      </div>
+    </div>
+  </section>
+  <LocalCTA city="Vila Velha" service="Tráfego Pago" />
+</ServiceLayout>

@@ -1,0 +1,28 @@
+---
+/**
+ * Sobre — /sobre
+ * Menciona Vila Velha explicitamente, DDD 27, equipe local
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LocalCTA from '@components/sections/LocalCTA.astro';
+---
+
+<BaseLayout
+  title="Sobre a Scale — Agência de Marketing Digital em Vila Velha – ES"
+  description="Conheça a Scale: agência de marketing digital localizada em Vila Velha (ES), especializada em criar resultados reais para empresas locais e de todo o Brasil."
+>
+  <section class="section">
+    <div class="container-narrow">
+      <span class="section-label">Nossa história</span>
+      <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-6">
+        Uma agência de Vila Velha com resultado de nível nacional
+      </h1>
+      <!-- TODO: preencher texto com a história real da Scale -->
+      <p class="text-lg text-ink-light leading-relaxed">
+        Conteúdo sobre a Scale a ser adicionado: fundação, equipe, missão e valores.
+      </p>
+    </div>
+  </section>
+
+  <LocalCTA city="Vila Velha" />
+</BaseLayout>

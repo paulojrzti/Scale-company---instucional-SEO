@@ -1,0 +1,31 @@
+---
+/**
+ * ServiceLayout.astro — Layout para páginas nacionais de serviço
+ * Ex: /servicos/criacao-de-sites, /servicos/trafego-pago
+ *
+ * Inclui Schema JSON-LD do serviço automaticamente.
+ */
+import BaseLayout from './BaseLayout.astro';
+import SchemaService from '@components/seo/SchemaService.astro';
+import type { Service } from '@data/services';
+
+interface Props {
+  title: string;
+  description: string;
+  service: Service;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const { title, description, service, canonical, ogImage } = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+>
+  <SchemaService slot="head" service={service} />
+  <slot />
+</BaseLayout>

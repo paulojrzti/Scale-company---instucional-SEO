@@ -1,0 +1,89 @@
+---
+/**
+ * Criação de Sites em Vila Velha — /vila-velha/criacao-de-sites
+ * Concorrência ~zero localmente. Maior oportunidade local.
+ * H1: "Criação de Site em Vila Velha – ES"
+ */
+import LocalLayout from '@layouts/LocalLayout.astro';
+import MapEmbed from '@components/ui/MapEmbed.astro';
+import FAQ from '@components/sections/FAQ.astro';
+import { getCityBySlug } from '@data/cities';
+
+const city = getCityBySlug('vila-velha')!;
+
+const faqs = [
+  {
+    question: 'Qual é o prazo para criar um site em Vila Velha?',
+    answer: 'Entregamos em 20 a 30 dias úteis após aprovação do briefing e recebimento dos materiais (textos, imagens e logo).',
+  },
+  {
+    question: 'A Scale atende empresas de toda Vila Velha?',
+    answer: 'Sim. Atendemos empresas da Glória, Praia da Costa, Itapoã, Coqueiral, Terra Vermelha e todos os bairros de Vila Velha — além de toda a Grande Vitória.',
+  },
+  {
+    question: 'O site já sai otimizado para aparecer no Google?',
+    answer: 'Sim. Todos os sites criados pela Scale já incluem SEO técnico: velocidade, meta tags, sitemap e schema markup.',
+  },
+];
+---
+
+<LocalLayout
+  title="Criação de Site em Vila Velha – ES | Scale"
+  description="Criação de sites profissionais para empresas em Vila Velha (ES). Sites responsivos, rápidos e otimizados para o Google. Orçamento grátis. (27) XXXX-XXXX."
+  city={city}
+>
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <span class="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+        📍 Vila Velha – ES
+      </span>
+      <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+        Criação de Site em Vila Velha – ES
+      </h1>
+      <p class="text-lg text-ink-light leading-relaxed mb-8 max-w-2xl">
+        Sites profissionais, responsivos e otimizados para o Google — desenvolvidos por uma agência local em Vila Velha. Atendemos empresas da Glória, Praia da Costa, Itapoã e toda a região.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary border-2 border-brand-primary transition-colors">
+          Solicitar orçamento grátis
+        </a>
+        <a href="tel:+5527XXXXXXXX" class="px-8 py-4 text-lg font-semibold rounded-lg border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-ink-inverse transition-colors">
+          (27) XXXX-XXXX
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Corpo da página: textos únicos, NÃO copiar da página nacional -->
+  <section class="section">
+    <div class="container-narrow">
+      <h2 class="font-heading text-2xl font-bold text-ink mb-5">
+        Por que contratar uma agência local em Vila Velha para criar seu site?
+      </h2>
+      <!-- TODO: Dev 2 preenche com conteúdo original focado no mercado local de VV -->
+      <p class="text-ink-light leading-relaxed">
+        Conteúdo exclusivo a ser criado pelo Dev 2. Deve incluir referências ao mercado local de VV, nomes de bairros, perfil das empresas da região e como o site ajuda a captar clientes locais.
+      </p>
+    </div>
+  </section>
+
+  <FAQ items={faqs} />
+
+  <!-- Mapa -->
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div>
+          <h2 class="font-heading text-2xl font-bold text-ink mb-4">Scale em Vila Velha</h2>
+          <address class="not-italic space-y-3">
+            <div class="flex gap-3">
+              <span class="text-sm font-semibold text-ink-light w-20 shrink-0">Telefone</span>
+              <a href="tel:+5527XXXXXXXX" class="text-brand-primary hover:underline">(27) XXXX-XXXX</a>
+            </div>
+          </address>
+        </div>
+        <MapEmbed />
+      </div>
+    </div>
+  </section>
+</LocalLayout>

@@ -1,0 +1,99 @@
+---
+/**
+ * Hub Local Vila Velha — /vila-velha
+ * H1: "Agência de Marketing Digital em Vila Velha – ES"
+ * Inclui endereço, DDD 27, Google Maps embed, bairros e todos os serviços
+ */
+import LocalLayout from '@layouts/LocalLayout.astro';
+import MapEmbed from '@components/ui/MapEmbed.astro';
+import { getCityBySlug } from '@data/cities';
+
+const city = getCityBySlug('vila-velha')!;
+
+const services = [
+  { href: '/vila-velha/criacao-de-sites', icon: '🌐', name: 'Criação de Sites' },
+  { href: '/vila-velha/criacao-de-landing-pages', icon: '⚡', name: 'Landing Pages' },
+  { href: '/vila-velha/seo', icon: '🔍', name: 'SEO' },
+  { href: '/vila-velha/gestao-redes-sociais', icon: '📱', name: 'Redes Sociais' },
+  { href: '/vila-velha/trafego-pago', icon: '💰', name: 'Tráfego Pago' },
+];
+---
+
+<LocalLayout
+  title="Agência de Marketing Digital em Vila Velha – ES | Scale"
+  description="Scale é a agência de marketing digital em Vila Velha (ES). Criação de sites, SEO, tráfego pago e redes sociais para empresas locais. (27) XXXX-XXXX."
+  city={city}
+>
+  <!-- Hero local -->
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <span class="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+        📍 Vila Velha – ES
+      </span>
+      <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+        Agência de Marketing Digital em Vila Velha – ES
+      </h1>
+      <p class="text-lg text-ink-light leading-relaxed mb-8 max-w-2xl">
+        A Scale é uma agência de marketing digital localizada em Vila Velha. Atendemos empresas da Glória, Praia da Costa, Itapoã, Coqueiral de Itaparica e toda a região — com criação de sites, SEO, tráfego pago e gestão de redes sociais.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary border-2 border-brand-primary transition-colors">
+          Falar com especialista
+        </a>
+        <a href="tel:+5527XXXXXXXX" class="px-8 py-4 text-lg font-semibold rounded-lg border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-ink-inverse transition-colors">
+          (27) XXXX-XXXX
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Serviços disponíveis em VV -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Serviços em Vila Velha</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {services.map((s) => (
+          <a href={s.href} class="block p-5 rounded-xl border border-edge bg-surface-card hover:border-brand-primary hover:shadow-md transition-all">
+            <p class="font-semibold text-ink text-lg">{s.icon} {s.name}</p>
+            <p class="text-sm text-ink-light mt-1">em Vila Velha – ES</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Mapa + Contato -->
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div>
+          <h2 class="font-heading text-3xl font-bold text-ink mb-6">
+            Atendemos Vila Velha e toda a Grande Vitória
+          </h2>
+          <address class="not-italic space-y-3">
+            <div class="flex gap-3">
+              <span class="text-sm font-semibold text-ink-light w-20 shrink-0">Endereço</span>
+              <!-- TODO: endereço real -->
+              <span class="text-ink-light">Vila Velha – ES</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-sm font-semibold text-ink-light w-20 shrink-0">Telefone</span>
+              <a href="tel:+5527XXXXXXXX" class="text-brand-primary hover:underline">(27) XXXX-XXXX</a>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-sm font-semibold text-ink-light w-20 shrink-0">Email</span>
+              <a href="mailto:contato@scale.com.br" class="text-brand-primary hover:underline">contato@scale.com.br</a>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-sm font-semibold text-ink-light w-20 shrink-0">Horário</span>
+              <span class="text-ink-light">Seg–Sex, 9h às 18h</span>
+            </div>
+          </address>
+        </div>
+        <MapEmbed title="Scale — Vila Velha, ES" />
+      </div>
+    </div>
+  </section>
+</LocalLayout>

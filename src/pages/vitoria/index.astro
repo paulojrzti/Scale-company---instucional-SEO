@@ -1,0 +1,42 @@
+---
+/** Hub Vitória — /vitoria · Fase 2 (mês 2) */
+import LocalLayout from '@layouts/LocalLayout.astro';
+import { getCityBySlug } from '@data/cities';
+const city = getCityBySlug('vitoria')!;
+---
+<LocalLayout
+  title="Agência de Marketing Digital em Vitória – ES | Scale"
+  description="Scale: agência de marketing digital em Vitória (ES). Criação de sites, SEO, tráfego pago e redes sociais. (27) XXXX-XXXX."
+  city={city}
+>
+  <section class="section bg-surface-subtle">
+    <div class="container">
+      <span class="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+        📍 Vitória – ES
+      </span>
+      <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-ink leading-tight mb-4">
+        Agência de Marketing Digital em Vitória – ES
+      </h1>
+      <p class="text-lg text-ink-light leading-relaxed mb-8 max-w-2xl">
+        Criação de sites, SEO e tráfego pago para empresas de Vitória e Grande Vitória.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <a href="/contato" class="px-8 py-4 text-lg font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary border-2 border-brand-primary transition-colors">
+          Solicitar orçamento
+        </a>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="/vitoria/criacao-de-sites" class="block p-5 rounded-xl border border-edge bg-surface-card hover:border-brand-primary hover:shadow-md transition-all">
+          <p class="font-semibold text-ink text-lg">🌐 Criação de Sites em Vitória</p>
+        </a>
+        <a href="/vitoria/seo" class="block p-5 rounded-xl border border-edge bg-surface-card hover:border-brand-primary hover:shadow-md transition-all">
+          <p class="font-semibold text-ink text-lg">🔍 SEO em Vitória</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</LocalLayout>
