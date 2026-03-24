@@ -1,34 +1,1341 @@
 ---
 /**
  * Home — /
- * Hub principal: menciona os 6 serviços e VV/ES
  * Target: "agência de marketing digital", "agência de marketing digital vila velha"
  */
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Hero from '@components/sections/Hero.astro';
-import ServicesGrid from '@components/sections/ServicesGrid.astro';
-import Testimonials from '@components/sections/Testimonials.astro';
-import LocalCTA from '@components/sections/LocalCTA.astro';
+import GlassEffect from '@components/ui/GlassEffect.astro';
+import { services } from '@data/services';
+import ScaleTestimonials from '@components/ui/TestimonialStack';
+import ScaleTestimonialSlider from '@components/ui/TestimonialSlider';
+
+import logoMahai     from '../assets/logos-parceiros/simple_logo_mahai.png?url';
+import logoAtivo1    from '../assets/logos-parceiros/Ativo-1.png?url';
+import logoAtivo3    from '../assets/logos-parceiros/Ativo-3-1024x252-1.png?url';
+import logoHash      from '../assets/logos-parceiros/50950f7c3c4647103d00017cb4d48bc9-removebg-preview.png?url';
+import logoMaskGrp   from '../assets/logos-parceiros/Mask-group.png?url';
+import logoMaskGrp1  from '../assets/logos-parceiros/Mask-group-1.png?url';
+
+/**
+ * Gradient bars — mesma matemática do componente gradient-bar-hero-section
+ */
+const barHeights = [100, 88, 76, 65, 55, 45, 37, 30, 37, 45, 55, 65, 76, 88, 100];
+
+const partnerLogos = [
+  { src: logoMahai,   alt: 'Mahai'   },
+  { src: logoAtivo1,  alt: 'Parceiro' },
+  { src: logoAtivo3,  alt: 'Parceiro' },
+  { src: logoHash,    alt: 'Parceiro' },
+  { src: logoMaskGrp, alt: 'Parceiro' },
+  { src: logoMaskGrp1,alt: 'Parceiro' },
+];
+
+const faqs = [
+  {
+    q: 'Já tive experiência ruim com agência. Por que a Scale seria diferente?',
+    a: 'Antes de qualquer proposta, fazemos um diagnóstico gratuito e honesto. Se não for o momento certo, dizemos isso. Nossa cultura é transparência total: você acompanha cada decisão e cada resultado em linguagem de negócio.',
+  },
+  {
+    q: 'Quanto preciso investir por mês?',
+    a: 'Depende do objetivo e do canal. O orçamento de mídia é definido com base na sua meta de resultado, não em pacote fixo. No diagnóstico gratuito mapeamos o investimento ideal para o seu caso.',
+  },
+  {
+    q: 'Em quanto tempo começo a ver resultado?',
+    a: 'Tráfego pago pode gerar leads em 2 a 4 semanas. SEO leva de 3 a 6 meses para resultados consistentes. Site: 20 a 30 dias úteis. Somos transparentes sobre prazos desde o início, sem promessa irreal.',
+  },
+  {
+    q: 'A Scale atende o meu segmento?',
+    a: 'Atendemos empresas de diversos segmentos em Vila Velha, Vitória, Serra e todo o ES. No diagnóstico avaliamos o fit e te dizemos com clareza o que podemos entregar.',
+  },
+  {
+    q: 'Posso cancelar quando quiser?',
+    a: 'Sim. Contratos mensais, sem fidelidade forçada. Retenção vem de resultado, não de cláusula contratual.',
+  },
+];
 ---
 
 <BaseLayout
   title="Agência de Marketing Digital em Vila Velha – ES | Scale"
   description="Scale é a agência de marketing digital em Vila Velha (ES) especializada em criação de sites, tráfego pago, SEO e redes sociais. Resultados reais para empresas locais."
 >
-  <Hero
-    title="Marketing Digital que <em>gera resultado</em> para sua empresa"
-    subtitle="Criação de sites, tráfego pago, SEO e redes sociais — tudo em uma agência em Vila Velha, ES."
-    badgeText="Agência em Vila Velha – ES"
-    ctaPrimary={{ label: 'Solicitar orçamento grátis', href: '/contato' }}
-    ctaSecondary={{ label: 'Ver nossos serviços', href: '/servicos' }}
-  />
 
-  <ServicesGrid
-    title="Serviços para crescer online"
-    subtitle="Do site ao tráfego pago: tudo que sua empresa precisa para dominar o digital."
-  />
+<style>
+  /* FAQ disclosure marker hide */
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
 
-  <Testimonials />
+  /* Marquee fade edges */
+  .marquee-wrap {
+    -webkit-mask: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    mask: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  }
 
-  <LocalCTA city="Vila Velha" />
+  /* Gradient bars — hero background (gradient-bar-hero-section style) */
+  @keyframes waveMovement {
+    0% { transform: scaleY(calc(var(--target-scale) * 0.4)); opacity: 0.3; }
+    100% { transform: scaleY(var(--target-scale)); opacity: 0.9; }
+  }
+  .hero-bar {
+    flex: 1 0 calc(100% / 15);
+    max-width: calc(100% / 15);
+    height: 100%;
+    background: linear-gradient(to top, #00BAFF, #1630DF 55%, transparent 100%);
+    transform-origin: bottom;
+    animation: waveMovement 2s ease-in-out infinite alternate;
+  }
+
+  /* Wrapper que controla a visibilidade coletiva via scroll, sem matar as ondas */
+  #hero-bars-wrapper {
+    width: 100%;
+    height: 100%;
+    transform-origin: bottom;
+    transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Gradient text — headline accent */
+  .text-gradient-brand {
+    background: linear-gradient(90deg, #00BAFF 0%, #6b8fff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>
+
+<!-- ===================================================
+     HERO — gradient-bar-hero-section (Scale identity):
+     barras animadas na base, headline centralizada,
+     fonte mista Inter regular + Fraunces italic,
+     CTA com spinning gradient border
+     =================================================== -->
+<section
+  class="relative flex flex-col items-center justify-center overflow-hidden -mt-16"
+  style="min-height: 100svh; background-color: #010f1c;"
+>
+
+  <!-- Gradient Bars — exato padrão do componente, cores da marca -->
+  <div class="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+    <div id="hero-bars-wrapper">
+      <div class="flex h-full w-full">
+        {barHeights.map((h, i) => {
+          // Efeito de onda assimétrica vertical (Senoide descompassada + progressão linear)
+          const pulseDelay = Math.max(0, (i * 0.15) + Math.sin(i * 1.2) * 0.4).toFixed(2);
+          return (
+            <div
+              class="hero-bar"
+              data-h={h}
+              style={`--target-scale: ${h / 100}; animation-delay: -${pulseDelay}s;`}
+            ></div>
+          );
+        })}
+      </div>
+    </div>
+    <!-- Fade superior: esconde a borda de cima das barras -->
+    <div
+      class="absolute inset-0"
+      style="background: linear-gradient(to bottom, #010f1c 0%, rgba(1,15,28,0.7) 20%, transparent 45%, rgba(1,15,28,0.65) 75%, #010f1c 100%);"
+    ></div>
+  </div>
+
+  <!-- Conteúdo centralizado — como no componente original -->
+  <div class="relative z-10 text-center w-full max-w-4xl mx-auto px-6 flex flex-col items-center">
+
+    <!-- Badge — liquid glass sutil, borda gradiente estática (não é botão) -->
+    <div class="mb-8 hero-animate-1">
+      <GlassEffect
+        className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold !cursor-default"
+        glassClass="bg-[#010f1c]/75"
+        rounded="rounded-full"
+      >
+        <span style="color: rgba(0,186,255,0.70);">✦</span>
+        <span style="color: rgba(255,255,255,0.65);">+240 empresas atendidas no Brasil inteiro</span>
+      </GlassEffect>
+    </div>
+
+    <!-- Headline principal -->
+    <h1 
+      class="w-full font-heading font-bold leading-[1.05] tracking-tight mb-4 px-4 mx-auto text-balance hero-animate-2"
+      style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); max-width: 1000px; background: linear-gradient(to bottom, #ffffff 30%, #a1a1aa 75%, rgba(176,184,193,0.05) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+    >
+      Crescimento previsível para sua empresa.
+    </h1>
+    
+    <h2
+      class="text-xl md:text-2xl font-body font-semibold mb-8 hero-animate-3"
+      style="color: #00BAFF;"
+    >
+      Marketing que de fato converte.
+    </h2>
+
+    <!-- Subtítulo — como no componente original -->
+    <div class="mb-10 px-4 hero-animate-4">
+      <p
+        class="text-lg md:text-xl font-body leading-relaxed max-w-2xl mx-auto"
+        style="color: rgba(255,255,255,0.60);"
+      >
+        <strong class="font-semibold" style="color: rgba(255,255,255,0.85);">Tráfego pago, sites, SEO</strong> e <strong class="font-semibold" style="color: rgba(255,255,255,0.85);">redes sociais</strong> para empresas em Vila Velha
+        e no ES que querem <strong class="font-semibold" style="color: rgba(255,255,255,0.85);">escalar com previsibilidade</strong>.
+      </p>
+    </div>
+
+    <!-- CTAs — spinning gradient border (ref1 copy) + link secundário -->
+    <div class="flex items-center gap-5 flex-wrap justify-center mb-12 hero-animate-4">
+
+      <!-- Botão com border de conic-gradient girando -->
+      <span class="relative inline-block overflow-hidden rounded-full" style="padding: 1.5px;">
+        <span
+          class="animate-spin-slow absolute pointer-events-none"
+          aria-hidden="true"
+          style="inset: -100%; background: conic-gradient(from 90deg at 50% 50%, #00BAFF 0%, #1630DF 50%, #00BAFF 100%);"
+        ></span>
+        <a
+          href="/contato"
+          class="relative inline-flex items-center gap-2 px-8 py-4 text-base font-semibold rounded-full transition-opacity hover:opacity-90"
+          style="background: #010f1c; color: white;"
+        >
+          Diagnóstico gratuito
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </span>
+
+      <!-- Ver serviços — liquid glass pill -->
+      <GlassEffect
+        href="/servicos"
+        className="inline-flex items-center gap-2 px-5 py-3 text-sm font-semibold text-white/80 group-hover:text-white"
+        glassClass="bg-white/5 group-hover:bg-white/10"
+        rounded="rounded-full"
+      >
+        Ver serviços
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </GlassEffect>
+    </div>
+
+    <!-- Ícones sociais — liquid glass circles -->
+    <div class="flex justify-center gap-3 hero-animate-4">
+      <!-- Instagram -->
+      <GlassEffect
+        href="https://instagram.com"
+        className="w-10 h-10 text-white/60 group-hover:text-[#00BAFF]"
+        glassClass="bg-white/5 group-hover:bg-[#00BAFF]/15"
+        rounded="rounded-full"
+        target="_blank"
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </GlassEffect>
+      <!-- LinkedIn -->
+      <GlassEffect
+        href="https://linkedin.com"
+        className="w-10 h-10 text-white/60 group-hover:text-[#00BAFF]"
+        glassClass="bg-white/5 group-hover:bg-[#00BAFF]/15"
+        rounded="rounded-full"
+        target="_blank"
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </GlassEffect>
+      <!-- WhatsApp -->
+      <GlassEffect
+        href="https://wa.me/5527000000000"
+        className="w-10 h-10 text-white/60 group-hover:text-[#00BAFF]"
+        glassClass="bg-white/5 group-hover:bg-[#00BAFF]/15"
+        rounded="rounded-full"
+        target="_blank"
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+      </GlassEffect>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===================================================
+     LOGOS MARQUEE — logos reais de parceiros/clientes
+     =================================================== -->
+<section
+  class="py-10 border-b border-white/5 overflow-hidden"
+  style="background-color: #010f1c;"
+>
+  <p
+    class="text-center text-xs uppercase tracking-widest mb-8 reveal-fade"
+    style="color: rgba(255,255,255,0.20);"
+  >
+    +240 empresas atendidas no Brasil inteiro
+  </p>
+  <div
+    class="marquee-wrap overflow-hidden"
+    style="
+      -webkit-mask: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+      mask: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    "
+  >
+    <div class="flex items-center gap-16 w-max animate-marquee">
+      {[...partnerLogos, ...partnerLogos, ...partnerLogos, ...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo) => (
+        <div class="flex-shrink-0 flex items-center justify-center" style="height: 72px;">
+          <img
+            src={logo.src}
+            alt={logo.alt}
+            loading="lazy"
+            style="
+              max-height: 60px;
+              max-width: 180px;
+              width: auto;
+              object-fit: contain;
+              filter: brightness(0) invert(1);
+              opacity: 0.45;
+            "
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<!-- ===================================================
+     DOR / PERSONA — pain points em cards glassmorphism
+     =================================================== -->
+<section class="section relative overflow-hidden" style="background-color: #010f1c;">
+  <!-- Neon glow dor persona -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(circle at 0% 50%, rgba(0, 186, 255, 0.15) 0%, rgba(22, 48, 223, 0.08) 40%, transparent 60%); z-index: 0;"></div>
+  
+  <div class="container relative z-10">
+    <!-- Layout 2 colunas: título + steps à esquerda, imagem à direita (mesma altura total) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 mb-14 items-stretch" id="pain-feature">
+
+      <!-- Esquerda: título + steps -->
+      <div class="flex flex-col reveal-left">
+        <div class="mb-8">
+          <span
+            class="text-xs font-semibold uppercase tracking-widest block mb-4"
+            style="color: #00BAFF;"
+          >Você se identifica?</span>
+          <h2
+            class="font-heading font-bold leading-[1.1] pb-2"
+            style="font-size: clamp(3rem, 6vw, 4.5rem); background: linear-gradient(to bottom, #ffffff 30%, #a1a1aa 75%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+          >
+            Você não está sozinho.
+          </h2>
+        </div>
+
+        <div class="space-y-10">
+          {[
+            {
+              title: 'Relatório sem resultado',
+              content: 'Você investe, recebe gráficos bonitos todo mês e as vendas continuam iguais. Marketing que não vira receita é desperdício.',
+            },
+            {
+              title: 'Falta de transparência',
+              content: 'Não sabe o que a agência faz com seu dinheiro. Falta clareza no processo, nas decisões e nos próximos passos.',
+            },
+            {
+              title: 'Clique que não converte',
+              content: 'O tráfego pago gera clique, mas ninguém fecha. Você paga caro por lead que não vira cliente.',
+            },
+          ].map((item, i) => (
+            <div
+              class="pain-step flex items-start gap-5 cursor-pointer"
+              data-pain-step={i}
+            >
+              <!-- Círculo numerado -->
+              <div class="pain-step-circle flex-shrink-0" data-pain-circle={i}>
+                <span class="pain-step-num">{i + 1}</span>
+                <span class="pain-step-check hidden">✓</span>
+              </div>
+
+              <div class="flex-1 pt-0.5">
+                <!-- Barra de progresso (só aparece no ativo) -->
+                <div class="pain-progress-wrap mb-3 hidden" data-pain-progress={i}>
+                  <div class="pain-progress-bar" style="height:2px; border-radius:2px; background: rgba(255,255,255,0.08);">
+                    <div class="pain-progress-fill" style="height:100%; width:0%; background: linear-gradient(90deg,#1630DF,#00BAFF); border-radius:2px; transition: width 0.1s linear;"></div>
+                  </div>
+                </div>
+                <h3 class="pain-step-title font-semibold text-lg mb-1">{item.title}</h3>
+                <p class="pain-step-desc text-sm leading-relaxed">{item.content}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Direita: imagem com slide (mesma altura do título + steps) -->
+      <div
+        class="relative rounded-2xl overflow-hidden order-first md:order-last reveal-right"
+        style="min-height: 320px;"
+      >
+        {[
+          'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80&fit=crop',
+          'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80&fit=crop',
+          'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=80&fit=crop',
+        ].map((src, i) => (
+          <div
+            class="pain-slide absolute inset-0"
+            data-pain-slide={i}
+            style={i === 0 ? 'opacity:1;transform:translateY(0);z-index:1;' : 'opacity:0;transform:translateY(100%);z-index:0;'}
+          >
+            <img
+              src={src}
+              alt=""
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <!-- Gradiente escuro na base para integrar com o fundo -->
+            <div
+              style="
+                position:absolute;inset:0;
+                background: linear-gradient(to top, #011420 0%, rgba(1,20,32,0.55) 40%, transparent 100%);
+              "
+            ></div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <style is:global>
+      /* Steps — opacidade base e ativa */
+      .pain-step { opacity: 0.30; transition: opacity 0.5s ease; }
+      .pain-step.is-active { opacity: 1; }
+
+      /* Círculo */
+      .pain-step-circle {
+        width: 40px; height: 40px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1rem; font-weight: 700;
+        border: 2px solid rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.05);
+        color: rgba(255,255,255,0.40);
+        transition: background 0.4s, border-color 0.4s, color 0.4s;
+        flex-shrink: 0;
+      }
+      .pain-step-circle.is-done {
+        background: rgba(0,186,255,0.15);
+        border-color: #00BAFF;
+        color: #00BAFF;
+      }
+      .pain-step-circle.is-active {
+        background: linear-gradient(135deg, #1630DF, #00BAFF);
+        border-color: transparent;
+        color: #fff;
+        transform: scale(1.1);
+      }
+
+      /* Textos */
+      .pain-step-title { color: rgba(255,255,255,0.45); transition: color 0.4s; }
+      .pain-step-desc  { color: rgba(255,255,255,0.25); transition: color 0.4s; }
+      .pain-step.is-active .pain-step-title { color: #fff; }
+      .pain-step.is-active .pain-step-desc  { color: rgba(255,255,255,0.55); }
+
+      /* Slides de imagem */
+      .pain-slide {
+        transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+      }
+      .pain-slide.is-entering {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        z-index: 2 !important;
+      }
+      .pain-slide.is-leaving {
+        opacity: 0 !important;
+        transform: translateY(-8%) !important;
+        z-index: 1 !important;
+      }
+    </style>
+
+    <script>
+      (() => {
+        const INTERVAL = 4000;
+        const steps   = Array.from(document.querySelectorAll<HTMLElement>('[data-pain-step]'));
+        const circles = Array.from(document.querySelectorAll<HTMLElement>('[data-pain-circle]'));
+        const slides  = Array.from(document.querySelectorAll<HTMLElement>('[data-pain-slide]'));
+        const progWraps = Array.from(document.querySelectorAll<HTMLElement>('[data-pain-progress]'));
+
+        let current = 0;
+        let elapsed = 0;
+        let ticker: ReturnType<typeof setInterval>;
+
+        function activate(next: number) {
+          const prev = current;
+
+          // slides
+          slides[prev].classList.remove('is-entering');
+          slides[prev].classList.add('is-leaving');
+          slides[next].style.transform = 'translateY(100%)';
+          slides[next].style.opacity = '0';
+          slides[next].style.zIndex = '2';
+          requestAnimationFrame(() => {
+            slides[next].classList.add('is-entering');
+          });
+          setTimeout(() => {
+            slides[prev].classList.remove('is-leaving');
+            slides[prev].style.zIndex = '0';
+            slides[prev].style.opacity = '0';
+          }, 520);
+
+          // steps
+          steps.forEach((s, i) => s.classList.toggle('is-active', i === next));
+
+          // circles
+          circles.forEach((c, i) => {
+            c.classList.remove('is-active', 'is-done');
+            const num   = c.querySelector<HTMLElement>('.pain-step-num')!;
+            const check = c.querySelector<HTMLElement>('.pain-step-check')!;
+            if (i < next)       { c.classList.add('is-done');   num.classList.add('hidden');    check.classList.remove('hidden'); }
+            else if (i === next){ c.classList.add('is-active');  num.classList.remove('hidden'); check.classList.add('hidden'); }
+            else                 {                                num.classList.remove('hidden'); check.classList.add('hidden'); }
+          });
+
+          // progress bars
+          progWraps.forEach((pw, i) => {
+            const fill = pw.querySelector<HTMLElement>('.pain-progress-fill')!;
+            if (i === next) { pw.classList.remove('hidden'); fill.style.width = '0%'; }
+            else            { pw.classList.add('hidden');    fill.style.width = '0%'; }
+          });
+
+          current = next;
+          elapsed = 0;
+        }
+
+        function tick() {
+          elapsed += 100;
+          const pct = Math.min((elapsed / INTERVAL) * 100, 100);
+          const fill = progWraps[current]?.querySelector<HTMLElement>('.pain-progress-fill');
+          if (fill) fill.style.width = pct + '%';
+          if (elapsed >= INTERVAL) activate((current + 1) % steps.length);
+        }
+
+        // click manual
+        steps.forEach((s, i) => s.addEventListener('click', () => {
+          clearInterval(ticker);
+          activate(i);
+          ticker = setInterval(tick, 100);
+        }));
+
+        // init
+        activate(0);
+        ticker = setInterval(tick, 100);
+      })();
+    </script>
+
+    <!-- Pivot: texto à esquerda, avaliações à direita -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center mt-32">
+      <!-- Esquerda: título + descrição -->
+      <div class="md:order-last reveal-left">
+        <ScaleTestimonials client:visible />
+      </div>
+
+      <!-- Direita: Testimonial Stack -->
+      <div class="reveal-right">
+        <h3
+          class="font-heading font-bold leading-[1.15] mb-4"
+          style="font-size: clamp(1.8rem, 3.5vw, 2.8rem); background: linear-gradient(to bottom, #ffffff 30%, #a1a1aa 75%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+        >
+          A Scale foi criada para resolver exatamente isso.
+        </h3>
+        <p class="text-base leading-relaxed mb-6" style="color: rgba(255,255,255,0.50);">
+          Diagnóstico honesto antes de qualquer proposta. Estratégia baseada em dado. Execução com relatório que você entende.
+        </p>
+        <a
+          href="/contato"
+          class="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-semibold rounded-lg transition-opacity hover:opacity-90"
+          style="background-color: #00BAFF; color: #010f1c;"
+        >
+          Falar com especialista
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Neon glow inferior — animado e chamativo -->
+    <div class="neon-glow-bottom" aria-hidden="true"></div>
+  </div>
+</section>
+
+<style>
+  .neon-glow-bottom {
+    position: absolute;
+    inset-inline: 0;
+    bottom: -15%;
+    height: 65%;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(0, 186, 255, 0.45) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 45% at 40% 95%, rgba(22, 48, 223, 0.35) 0%, transparent 55%),
+      radial-gradient(ellipse 45% 40% at 60% 100%, rgba(0, 240, 255, 0.28) 0%, transparent 50%);
+    filter: blur(50px);
+    animation: neonPulse 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes neonPulse {
+    0% {
+      opacity: 0.6;
+      transform: scaleX(1) scaleY(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scaleX(1.08) scaleY(1.12);
+    }
+    100% {
+      opacity: 0.7;
+      transform: scaleX(0.95) scaleY(1.05);
+    }
+  }
+</style>
+
+
+<!-- ===================================================
+     PROVA SOCIAL — Testimonial Slider full-width
+     =================================================== -->
+<section style="background-color: #ffffff;">
+  <ScaleTestimonialSlider client:visible />
+</section>
+
+
+<!-- ===================================================
+     SERVIÇOS — ScrollX Carousel scroll-driven
+     Outer alto (scroll space) + sticky inner + track translateX
+     =================================================== -->
+<div id="srv-scroll-outer" style="height: 280vh; position: relative; background-color: #010f1c;">
+  <div
+    id="srv-sticky"
+    style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: 3rem 0 2rem;"
+  >
+    <!-- Neon glow services -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 70% 60% at 50% -10%, rgba(0, 186, 255, 0.15) 0%, rgba(22, 48, 223, 0.08) 40%, transparent 70%); z-index: 0;"></div>
+
+    <!-- Header -->
+    <div class="text-center mb-10 px-8 relative z-10">
+      <span
+        class="text-xs font-semibold uppercase tracking-widest block mb-3"
+        style="color: #00BAFF;"
+      >O que fazemos</span>
+      <h2
+        class="font-heading font-bold leading-[1.1] pb-2"
+        style="font-size: clamp(3rem, 6vw, 4.5rem); background: linear-gradient(to bottom, #ffffff 30%, #a1a1aa 75%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+      >
+        Crescimento Estruturado.
+      </h2>
+    </div>
+
+    <!-- Fade edges -->
+    <div aria-hidden="true" style="pointer-events:none;position:absolute;top:0;left:0;width:14vw;height:100%;background:linear-gradient(90deg,#010f1c 35%,transparent);z-index:10;"></div>
+    <div aria-hidden="true" style="pointer-events:none;position:absolute;top:0;right:0;width:14vw;height:100%;background:linear-gradient(270deg,#010f1c 35%,transparent);z-index:10;"></div>
+
+    <!-- Track — se move horizontalmente via JS -->
+    <div
+      id="srv-track"
+      style="display:flex; gap:1.5rem; width:fit-content; padding:0.5rem 8vw 1rem; will-change:transform; transition:transform 0.05s linear;"
+    >
+      {[
+        {
+          slug: 'criacao-de-sites',
+          title: 'Criação de Sites',
+          type: 'Web',
+          tags: ['design', 'desenvolvimento', 'SEO'],
+          desc: 'Sites rápidos, responsivos e otimizados para converter visitante em cliente.',
+          image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80&fit=crop',
+        },
+        {
+          slug: 'trafego-pago',
+          title: 'Tráfego Pago',
+          type: 'Performance',
+          tags: ['Google Ads', 'Meta Ads', 'ROAS'],
+          desc: 'Campanhas de anúncios gerenciadas para trazer leads qualificados com menor custo.',
+          image: 'https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=800&q=80&fit=crop',
+        },
+        {
+          slug: 'consultoria-seo',
+          title: 'Consultoria SEO',
+          type: 'Orgânico',
+          tags: ['SEO técnico', 'conteúdo', 'ranking'],
+          desc: 'Estratégia para aparecer na primeira página do Google nas buscas do seu cliente.',
+          image: 'https://images.unsplash.com/photo-1572177812156-58036aae439c?w=800&q=80&fit=crop',
+        },
+        {
+          slug: 'gestao-redes-sociais',
+          title: 'Gestão de Redes Sociais',
+          type: 'Social',
+          tags: ['Instagram', 'conteúdo', 'engajamento'],
+          desc: 'Presença consistente nas redes com conteúdo que gera autoridade e relacionamento.',
+          image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&q=80&fit=crop',
+        },
+        {
+          slug: 'criacao-de-landing-pages',
+          title: 'Landing Pages',
+          type: 'Conversão',
+          tags: ['CRO', 'design', 'copywriting'],
+          desc: 'Páginas focadas em um único objetivo: converter o visitante em lead ou venda.',
+          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&fit=crop',
+        },
+        {
+          slug: 'email-marketing',
+          title: 'E-mail Marketing',
+          type: 'Retenção',
+          tags: ['automação', 'nutrição', 'conversão'],
+          desc: 'Sequências de e-mail que nutrem, convertem e retêm clientes ao longo do tempo.',
+          image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=800&q=80&fit=crop',
+        },
+      ].map((s) => (
+        <a
+          href={`/servicos/${s.slug}`}
+          class="srv-card"
+          aria-label={s.title}
+        >
+          <!-- Imagem -->
+          <div class="srv-card-img">
+            <img src={s.image} alt={s.title} loading="lazy" />
+          </div>
+
+          <!-- Título sempre visível no topo -->
+          <div class="srv-card-top">
+            <span class="srv-card-type">{s.type}</span>
+            <h3 class="srv-card-title">{s.title}</h3>
+          </div>
+
+          <!-- Conteúdo que sobe no hover -->
+          <div class="srv-card-reveal">
+            <div class="srv-card-tags">
+              {s.tags.map((tag) => (
+                <span class="srv-tag">{tag}</span>
+              ))}
+            </div>
+            <p class="srv-card-desc">{s.desc}</p>
+            <span class="srv-card-cta">Ver serviço →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Progress bar -->
+    <div class="mx-8 mt-6" style="background:rgba(255,255,255,0.08);height:3px;border-radius:9999px;overflow:hidden;">
+      <div
+        id="srv-progress"
+        style="height:100%;width:100%;border-radius:9999px;background:linear-gradient(90deg,#1630DF,#00BAFF);transform:scaleX(0);transform-origin:left;transition:transform 0.05s linear;"
+      ></div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .srv-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    flex-shrink: 0;
+    width: clamp(280px, 38vw, 420px);
+    aspect-ratio: 3/4;
+    display: block;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .srv-card-img {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .srv-card:hover .srv-card-img {
+    transform: scale(1.05);
+  }
+  .srv-card-img img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+
+  /* Gradiente permanente do topo para dar legibilidade ao título */
+  .srv-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(1,9,20,0.70) 0%,
+      rgba(1,9,20,0.10) 40%,
+      rgba(1,9,20,0.05) 60%,
+      rgba(1,9,20,0.80) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Título no topo — sempre visível */
+  .srv-card-top {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    right: 1.25rem;
+    z-index: 2;
+  }
+  .srv-card-type {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    color: #00BAFF;
+    background: rgba(0,186,255,0.12);
+    border: 1px solid rgba(0,186,255,0.25);
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    margin-bottom: 0.5rem;
+  }
+  .srv-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  /* Reveal — sobe no hover */
+  .srv-card-reveal {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    right: 1.25rem;
+    z-index: 2;
+    background: rgba(1,9,20,0.60);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    transform: translateY(calc(100% + 1.5rem));
+    opacity: 0;
+    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease;
+  }
+  .srv-card:hover .srv-card-reveal {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .srv-card-tags {
+    display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.65rem;
+  }
+  .srv-tag {
+    font-size: 0.65rem; font-weight: 600;
+    padding: 0.15rem 0.55rem; border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.70);
+    text-transform: capitalize;
+  }
+  .srv-card-desc {
+    font-size: 0.8rem; line-height: 1.55;
+    color: rgba(255,255,255,0.65);
+    margin: 0 0 0.75rem;
+  }
+  .srv-card-cta {
+    font-size: 0.75rem; font-weight: 700;
+    color: #00BAFF;
+  }
+</style>
+
+<script>
+  (() => {
+    const outer    = document.getElementById('srv-scroll-outer')!;
+    const track    = document.getElementById('srv-track')!;
+    const progress = document.getElementById('srv-progress')!;
+
+    function update() {
+      const outerRect  = outer.getBoundingClientRect();
+      const outerH     = outer.offsetHeight;
+      const winH       = window.innerHeight;
+      const scrollable = outerH - winH;                    // total scroll dentro da seção
+      const scrolled   = Math.max(0, -outerRect.top);      // quanto já rolou
+      const pct        = Math.min(1, scrolled / scrollable);
+
+      const trackW     = track.scrollWidth;
+      const containerW = outer.offsetWidth;
+      const maxX       = -(trackW - containerW + containerW * 0.16); // descontar padding
+      track.style.transform  = `translateX(${pct * maxX}px)`;
+      progress.style.transform = `scaleX(${pct})`;
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  })();
+</script>
+
+
+<!-- ===================================================
+     FEATURE SPLIT — estilo Goprovente "is Effortless":
+     texto esquerda + imagem/visual direita
+     =================================================== -->
+<section class="section relative overflow-hidden" style="background-color: #010f1c;">
+  <!-- Neon glow feature left -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(circle at 100% 50%, rgba(0, 186, 255, 0.12) 0%, rgba(22, 48, 223, 0.06) 40%, transparent 60%); z-index: 0;"></div>
+
+  <div class="container relative z-10">
+    <div class="flex flex-col lg:flex-row items-center gap-14 lg:gap-20">
+
+      <!-- Texto -->
+      <div class="flex-1 reveal-left">
+        <span
+          class="text-xs font-semibold uppercase tracking-widest block mb-4"
+          style="color: #00BAFF;"
+        >Como trabalhamos</span>
+        <h2
+          class="font-heading font-bold leading-[1.1] pb-2 mb-6"
+          style="font-size: clamp(3rem, 6vw, 4.5rem); background: linear-gradient(to bottom, #ffffff 30%, #a1a1aa 75%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+        >
+          Processo Simples.
+        </h2>
+        <div class="space-y-6">
+          {[
+            {
+              num: '01',
+              title: 'Diagnóstico gratuito',
+              desc: 'Entendemos seu negócio, objetivos, concorrência e o que está travando suas vendas. Sem compromisso.',
+            },
+            {
+              num: '02',
+              title: 'Estratégia sob medida',
+              desc: 'Plano com metas claras, canais certos e budget calculado com base em resultado real, não em pacote fixo.',
+            },
+            {
+              num: '03',
+              title: 'Execução e relatórios',
+              desc: 'Execução completa e relatório mensal em linguagem de negócio. Você acompanha cada resultado.',
+            },
+          ].map((step) => (
+            <div class="flex gap-5">
+              <span
+                class="font-heading font-bold text-3xl leading-none flex-shrink-0 w-10"
+                style="color: rgba(0,186,255,0.20);"
+              >
+                {step.num}
+              </span>
+              <div>
+                <p class="text-white font-semibold text-sm mb-1">{step.title}</p>
+                <p class="text-sm leading-relaxed" style="color: rgba(255,255,255,0.45);">{step.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-10">
+          <a
+            href="/contato"
+            class="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-semibold rounded-lg transition-opacity hover:opacity-90"
+            style="background-color: #00BAFF; color: #010f1c;"
+          >
+            Solicitar diagnóstico gratuito
+          </a>
+        </div>
+      </div>
+
+      <!-- Visual: imagem real (placeholder) -->
+      <div class="flex-shrink-0 w-full lg:w-[480px] reveal-right">
+        <div class="rounded-2xl overflow-hidden border border-white/10">
+          <img
+            src="https://picsum.photos/seed/marketing-team/640/480"
+            alt="Equipe Scale analisando estratégia de marketing digital"
+            class="w-full h-auto object-cover block"
+            loading="lazy"
+            width="640"
+            height="480"
+          />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================================================
+     CASES — estilo Dulcedo featured profiles:
+     cards de imagem com overlay e resultado em destaque
+     =================================================== -->
+<section class="section relative overflow-hidden" style="background-color: #010f1c;">
+  <!-- Neon glow cases bottom -->
+  <div class="absolute inset-x-0 bottom-0 top-1/2 pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 80% 80% at 50% 100%, rgba(0, 186, 255, 0.15) 0%, rgba(22, 48, 223, 0.08) 50%, transparent 80%); z-index: 0;"></div>
+
+  <div class="container relative z-10">
+
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 reveal-up">
+      <div>
+        <span
+          class="text-xs font-semibold uppercase tracking-widest block mb-4"
+          style="color: #00BAFF;"
+        >Resultados reais</span>
+        <h2
+          class="font-heading font-bold leading-[1.1] pb-2"
+          style="font-size: clamp(3rem, 6vw, 4.5rem); background: linear-gradient(to bottom, #ffffff 30%, #a1a1aa 75%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+        >
+          Casos de Sucesso.
+        </h2>
+      </div>
+      <a
+        href="/casos"
+        class="text-sm font-semibold flex-shrink-0 transition-colors hover:text-white"
+        style="color: rgba(255,255,255,0.40);"
+      >
+        Ver todos os cases →
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+      {[
+        {
+          seed: 'construction-build',
+          alt: 'Construtora JVS — case Scale Marketing',
+          service: 'Tráfego Pago',
+          m1: '+280%', m1Label: 'leads gerados',
+          m2: '-45%',  m2Label: 'custo por lead',
+          company: 'Construtora JVS',
+          city: 'Vila Velha, ES',
+        },
+        {
+          seed: 'clinic-health-centro',
+          alt: 'Clínica Vida Plena — case Scale Marketing',
+          service: 'SEO + Google Ads',
+          m1: '+400%', m1Label: 'agendamentos',
+          m2: '1ª pág', m2Label: 'no Google',
+          company: 'Clínica Vida Plena',
+          city: 'Vitória, ES',
+        },
+        {
+          seed: 'industry-factory-group',
+          alt: 'Grupo Mendes — case Scale Marketing',
+          service: 'Site + SEO',
+          m1: '1ª pág', m1Label: 'Google em 4 meses',
+          m2: '+320%',  m2Label: 'tráfego orgânico',
+          company: 'Grupo Mendes',
+          city: 'Serra, ES',
+        },
+      ].map((c) => (
+        <a
+          href="/casos"
+          class="group relative rounded-2xl overflow-hidden block"
+          style="aspect-ratio: 3/4;"
+        >
+          <img
+            src={`https://picsum.photos/seed/${c.seed}/480/640`}
+            alt={c.alt}
+            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            loading="lazy" width="480" height="640"
+          />
+          <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(1,15,28,0.98) 0%, rgba(1,15,28,0.60) 40%, rgba(1,15,28,0.10) 70%, transparent 100%);"></div>
+
+          <!-- Tag -->
+          <div class="absolute top-4 left-4">
+            <span class="text-xs font-semibold px-3 py-1 rounded-full border" style="background: rgba(0,186,255,0.12); border-color: rgba(0,186,255,0.30); color: #00BAFF;">
+              {c.service}
+            </span>
+          </div>
+
+          <!-- Seta hover -->
+          <div class="absolute top-4 right-4 w-9 h-9 rounded-full border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-y-1 group-hover:translate-y-0" style="background: rgba(0,186,255,0.15);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00BAFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </div>
+
+          <!-- Base: 2 métricas lado a lado (padrão Turbopartners) -->
+          <div class="absolute bottom-0 left-0 right-0 p-5">
+            <div class="grid grid-cols-2 gap-3 mb-4">
+              <div class="rounded-xl p-3" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.10);">
+                <p class="font-heading font-bold text-white leading-none mb-0.5" style="font-size: clamp(1.4rem, 3vw, 1.9rem);">{c.m1}</p>
+                <p class="text-[10px] leading-tight" style="color: rgba(255,255,255,0.45);">{c.m1Label}</p>
+              </div>
+              <div class="rounded-xl p-3" style="background: rgba(0,186,255,0.08); border: 1px solid rgba(0,186,255,0.20);">
+                <p class="font-heading font-bold leading-none mb-0.5" style="font-size: clamp(1.4rem, 3vw, 1.9rem); color: #00BAFF;">{c.m2}</p>
+                <p class="text-[10px] leading-tight" style="color: rgba(255,255,255,0.45);">{c.m2Label}</p>
+              </div>
+            </div>
+            <div class="border-t border-white/10 pt-3">
+              <p class="text-white font-semibold text-sm">{c.company}</p>
+              <p class="text-xs mt-0.5" style="color: rgba(255,255,255,0.35);">{c.city}</p>
+            </div>
+          </div>
+        </a>
+      ))}
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================================================
+     STATS — seção standalone 4 colunas (Turbopartners)
+     =================================================== -->
+<section style="background-color: #010f1c; padding: 5rem 0;">
+  <div class="container">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px" style="background: rgba(255,255,255,0.07); border-radius: 1.25rem; overflow: hidden;">
+      {[
+        { icon: '🚀', num: '50+',    label: 'clientes atendidos',      sub: 'em Vila Velha e no ES' },
+        { icon: '💰', num: 'R$2M+',  label: 'em resultados gerados',   sub: 'para nossos clientes' },
+        { icon: '📈', num: '4+',     label: 'anos de mercado',         sub: 'com foco em resultado' },
+        { icon: '⭐', num: '98%',    label: 'de clientes satisfeitos', sub: 'em pesquisa interna' },
+      ].map((s) => (
+        <div class="flex flex-col items-center text-center px-8 py-10" style="background: rgba(1,15,28,1);">
+          <span class="text-3xl mb-5 block">{s.icon}</span>
+          <p
+            class="font-heading font-bold text-white leading-none mb-2"
+            style="font-size: clamp(2.2rem, 4vw, 3rem);"
+          >{s.num}</p>
+          <p class="text-sm font-semibold text-white mb-1">{s.label}</p>
+          <p class="text-xs" style="color: rgba(255,255,255,0.30);">{s.sub}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================================================
+     SOBRE — texto left + imagem right, sem stats inline
+     =================================================== -->
+<section class="section relative overflow-hidden" style="background-color: #010f1c;">
+  <!-- Neon glow sobre left center -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(circle at 0% 100%, rgba(0, 186, 255, 0.15) 0%, rgba(22, 48, 223, 0.08) 40%, transparent 60%); z-index: 0;"></div>
+
+  <div class="container relative z-10">
+    <div class="flex flex-col lg:flex-row items-center gap-14 lg:gap-20">
+
+      <!-- Imagem -->
+      <div class="flex-shrink-0 w-full lg:w-[460px] order-2 lg:order-1 reveal-left">
+        <div class="rounded-2xl overflow-hidden border border-white/10">
+          <img
+            src="https://picsum.photos/seed/agency-office/640/500"
+            alt="Equipe da Scale Agência em Vila Velha"
+            class="w-full h-auto object-cover block"
+            loading="lazy" width="640" height="500"
+          />
+        </div>
+      </div>
+
+      <!-- Conteúdo -->
+      <div class="flex-1 order-1 lg:order-2 reveal-right">
+        <span class="text-xs font-semibold uppercase tracking-widest block mb-4" style="color: #00BAFF;">Quem somos</span>
+        <h2
+          class="font-heading font-bold leading-[1.1] pb-2 mb-5"
+          style="font-size: clamp(3rem, 6vw, 4.5rem); background: linear-gradient(to bottom, #ffffff 30%, #a1a1aa 75%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+        >
+          Do ES ao Brasil.
+        </h2>
+        <p class="text-sm leading-relaxed mb-4" style="color: rgba(255,255,255,0.55);">
+          A Scale nasceu em Vila Velha, ES, com uma missão clara: fazer marketing que gera negócio. Não somos uma agência que terceiriza tudo e entrega relatório. Somos estrategistas, gestores e criadores que vivem os resultados dos nossos clientes.
+        </p>
+        <p class="text-sm leading-relaxed mb-10" style="color: rgba(255,255,255,0.55);">
+          Acreditamos que marketing sem meta é aposta. Por isso, antes de qualquer execução, entendemos o seu negócio a fundo e construímos uma estratégia com alvo claro.
+        </p>
+        <a href="/sobre" class="text-sm font-semibold transition-colors hover:text-white" style="color: #00BAFF;">
+          Conheça nossa história →
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ===================================================
+     MANIFESTO — headline grande centralizada estilo Dulcedo:
+     "We elevate voices that shape culture"
+     =================================================== -->
+<section
+  class="relative py-28 overflow-hidden"
+  style="background-color: #010f1c;"
+>
+  <!-- Neon glow manifesto center bottom -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(0, 186, 255, 0.15) 0%, rgba(22, 48, 223, 0.08) 50%, transparent 80%); z-index: 0;"></div>
+
+  <div class="container-narrow text-center relative z-10">
+    <p
+      class="font-heading font-bold leading-[1.05] mx-auto pb-4"
+      style="font-size: clamp(3.5rem, 8vw, 6rem); max-width: 900px; background: linear-gradient(to bottom, #ffffff 30%, #a1a1aa 75%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+    >
+      Marketing sem meta<br />
+      é aposta.<br />
+      Trabalhamos<br />
+      com certeza.
+    </p>
+    <div class="mt-10 flex items-center justify-center gap-3">
+      <div class="h-px w-16" style="background: rgba(255,255,255,0.10);"></div>
+      <p class="text-sm" style="color: rgba(255,255,255,0.30);">Scale · Vila Velha, ES</p>
+      <div class="h-px w-16" style="background: rgba(255,255,255,0.10);"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================================================
+     FAQ — accordion dark com borda ciano no open state
+     =================================================== -->
+<section class="section" style="background-color: #010f1c;">
+  <div class="container-narrow">
+    <div class="text-center max-w-xl mx-auto mb-12 reveal-up">
+      <span
+        class="text-xs font-semibold uppercase tracking-widest block mb-4"
+        style="color: #00BAFF;"
+      >Dúvidas frequentes</span>
+      <h2
+        class="font-heading font-bold leading-[1.1] pb-2"
+        style="font-size: clamp(3rem, 6vw, 4.5rem); background: linear-gradient(to bottom, #ffffff 30%, #a1a1aa 75%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+      >
+        Dúvidas Frequentes.
+      </h2>
+    </div>
+
+    <div class="space-y-3">
+      {faqs.map((faq) => (
+        <details
+          class="rounded-xl border border-white/10 group transition-all open:border-[#00BAFF]/30"
+          style="background: rgba(255,255,255,0.03);"
+        >
+          <summary class="flex items-center justify-between px-6 py-5 cursor-pointer select-none">
+            <span class="text-sm font-semibold pr-4" style="color: white;">{faq.q}</span>
+            <span
+              class="flex-shrink-0 w-6 h-6 rounded-full border border-white/20 flex items-center justify-center text-sm font-light transition-transform duration-300 group-open:rotate-45 group-open:border-[#00BAFF]/50"
+              style="color: #00BAFF;"
+              aria-hidden="true"
+            >+</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm leading-relaxed" style="color: rgba(255,255,255,0.50);">
+            {faq.a}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================================================
+     CTA FINAL — gradiente da marca, full bleed
+     =================================================== -->
+<section
+  class="relative overflow-hidden py-28 text-center"
+  style="background: linear-gradient(135deg, #1630DF 0%, #0d9fd4 100%);"
+>
+  <!-- Glow center -->
+  <div
+    class="absolute inset-0 pointer-events-none"
+    style="background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 65%);"
+  ></div>
+
+  <div class="container-narrow relative">
+    <span
+      class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold border border-white/30 mb-7"
+      style="background: rgba(255,255,255,0.15); color: white;"
+    >
+      📍 Vila Velha, ES
+    </span>
+
+    <h2
+      class="font-heading font-bold text-white leading-tight mb-4"
+      style="font-size: clamp(2rem, 4vw, 3rem);"
+    >
+      Sua empresa merece uma agência<br />que entrega resultado.
+    </h2>
+    <p class="text-base mb-10" style="color: rgba(255,255,255,0.70);">
+      Diagnóstico gratuito, sem compromisso e sem enrolação.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a
+        href="/contato"
+        class="px-8 py-4 text-base font-semibold rounded-lg transition-opacity hover:opacity-90 w-full sm:w-auto"
+        style="background: white; color: #1630DF;"
+      >
+        Solicitar diagnóstico gratuito
+      </a>
+      <a
+        href="https://wa.me/5527XXXXXXXX"
+        class="px-8 py-4 text-base font-semibold rounded-lg border-2 border-white text-white hover:bg-white/10 transition-colors w-full sm:w-auto"
+      >
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Controla o wrapper coletivo das barras, sem NUNCA tocar na animação individual
+  const barsWrapper = document.getElementById('hero-bars-wrapper');
+  if (barsWrapper) {
+    let lastScrollY = window.scrollY;
+    let scrollState = 'top';
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY <= 50 && scrollState !== 'top') {
+        // Volta ao topo -> Mostra tudo (ondas continuam rodando naturalmente)
+        barsWrapper.style.transform = 'scaleY(1)';
+        scrollState = 'top';
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100 && scrollState !== 'down') {
+        // Rolou para baixo -> Esconde suavemente
+        barsWrapper.style.transform = 'scaleY(0)';
+        scrollState = 'down';
+      } else if (currentScrollY < lastScrollY && scrollState === 'down') {
+        // Rolou para cima -> Mostra suavemente
+        barsWrapper.style.transform = 'scaleY(1)';
+        scrollState = 'up';
+      }
+
+      lastScrollY = currentScrollY;
+    }, { passive: true });
+  }
+</script>
+
+<script>
+  // --- Hero reveal after preloader ---
+  const preloader = document.getElementById('preloader');
+  if (preloader) {
+    const mo = new MutationObserver(() => {
+      if (preloader.classList.contains('preloader-done') || preloader.style.display === 'none') {
+        document.body.classList.add('hero-ready');
+        mo.disconnect();
+      }
+    });
+    mo.observe(preloader, { attributes: true, attributeFilter: ['class', 'style'] });
+    // Fallback if preloader already gone
+    setTimeout(() => document.body.classList.add('hero-ready'), 2500);
+  } else {
+    document.body.classList.add('hero-ready');
+  }
+
+  // --- Scroll reveal IntersectionObserver ---
+  const revealEls = document.querySelectorAll('[class*="reveal-"]');
+  if (revealEls.length) {
+    // Assign stagger indexes
+    document.querySelectorAll('.reveal-stagger').forEach((parent) => {
+      parent.querySelectorAll('[class*="reveal-"]').forEach((child, i) => {
+        (child as HTMLElement).style.setProperty('--reveal-i', String(i));
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach((el) => observer.observe(el));
+  }
+</script>
+
 </BaseLayout>

@@ -66,6 +66,27 @@ module.exports = {
       transitionDuration: {
         DEFAULT: '200ms',
       },
+
+      /** Animações */
+      animation: {
+        marquee:    'marquee 35s linear infinite',
+        grid:       'grid 20s linear infinite',
+        'spin-slow': 'spin 3s linear infinite',
+      },
+      keyframes: {
+        marquee: {
+          from: { transform: 'translateX(0)' },
+          to:   { transform: 'translateX(-50%)' },
+        },
+        grid: {
+          '0%':   { transform: 'translateY(-50%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        spin: {
+          from: { transform: 'rotate(0deg)' },
+          to:   { transform: 'rotate(360deg)' },
+        },
+      },
     },
   },
 

@@ -1,16 +1,69 @@
 ---
 import Nav from './Nav.astro';
+import logoUrl from '../../assets/brand/logo.svg?url';
+
+const isHome = Astro.url.pathname === '/';
 ---
 
-<header class="sticky top-0 z-[200] bg-surface-card/95 backdrop-blur border-b border-edge">
+<header
+  id="site-header"
+  class={`fixed top-0 left-0 right-0 w-full z-[200] transition-all duration-300 ${isHome ? 'is-transparent' : 'is-glass'}`}
+>
   <div class="container flex items-center justify-between h-16">
 
-    <a href="/" class="flex items-center gap-3 shrink-0" aria-label="Scale — página inicial">
-      <!-- TODO: substituir pelo <img> da logo real após receber assets -->
-      <span class="font-heading text-xl font-bold text-ink">Scale</span>
+    <a href="/" class="flex items-center shrink-0" aria-label="Scale, página inicial">
+      <img src={logoUrl} alt="Scale" id="site-logo" class="h-7 w-auto" />
     </a>
 
     <Nav />
 
   </div>
 </header>
+
+<!--
+  Estados controlados por classe JS:
+    .is-transparent  → fundo transparente, sem border
+    .is-glass        → dark glass + blur
+  Transição suave via transition-all duration-300 no elemento.
+-->
+<style is:global>
+  #site-header.is-transparent {
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  #site-header.is-glass {
+    background: rgba(1, 15, 28, 0.92);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  /* Glow na logo enquanto transparente — mantém contraste sobre qualquer bg */
+  #site-header.is-transparent #site-logo {
+    filter: drop-shadow(0 0 16px rgba(0, 186, 255, 0.65));
+  }
+
+  #site-header.is-glass #site-logo {
+    filter: none;
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+
+  // Só ativa o scroll-listener se a página começou transparente
+  if (header && header.classList.contains('is-transparent')) {
+    const update = () => {
+      if (window.scrollY > 60) {
+        header.classList.replace('is-transparent', 'is-glass');
+      } else {
+        header.classList.replace('is-glass', 'is-transparent');
+      }
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>

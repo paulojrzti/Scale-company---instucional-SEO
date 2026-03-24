@@ -9,90 +9,268 @@ function isActive(href: string): boolean {
 }
 ---
 
-<!-- Hambúrguer (só mobile) -->
-<button
-  id="nav-toggle"
-  class="md:hidden flex flex-col gap-1.5 p-2 rounded-md hover:bg-surface-subtle transition-colors"
-  aria-label="Abrir menu"
-  aria-expanded="false"
-  aria-controls="main-nav"
->
-  <span class="block w-5 h-0.5 bg-ink rounded-full transition-transform duration-200"></span>
-  <span class="block w-5 h-0.5 bg-ink rounded-full transition-opacity duration-200"></span>
-  <span class="block w-5 h-0.5 bg-ink rounded-full transition-transform duration-200"></span>
-</button>
+<!-- =====================================================
+     DESKTOP NAV + HAMBURGER WRAPPER
+     ===================================================== -->
+<div class="flex items-center gap-2">
 
-<!-- Nav — slide-out no mobile, row no desktop -->
-<nav
-  id="main-nav"
-  role="navigation"
-  aria-label="Menu principal"
-  class="
-    fixed top-0 right-0 h-dvh w-[min(280px,80vw)]
-    bg-surface-card shadow-xl z-[300]
-    flex flex-col items-start gap-1
-    pt-20 px-6 pb-8 overflow-y-auto
-    md:static md:h-auto md:w-auto md:shadow-none
-    md:flex-row md:items-center
-    md:pt-0 md:px-0 md:pb-0
-  "
->
-  {mainNav.map((item) => (
-    <a
-      href={item.href}
-      class:list={[
-        'px-3 py-2 text-sm font-medium rounded-lg transition-colors w-full md:w-auto',
-        isActive(item.href)
-          ? 'text-brand-primary font-semibold'
-          : 'text-ink-mid hover:text-ink hover:bg-surface-subtle',
-      ]}
-      aria-current={isActive(item.href) ? 'page' : undefined}
-    >
-      {item.label}
-    </a>
-  ))}
+  <!-- Links desktop -->
+  <nav
+    class="hidden md:flex items-center gap-0.5"
+    role="navigation"
+    aria-label="Menu principal"
+  >
+    {mainNav.map((item) =>
+      item.hasDropdown ? (
+        <!-- Item com dropdown — hover CSS puro -->
+        <div class="relative group">
+          <button
+            class:list={[
+              'flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 cursor-default',
+              isActive(item.href) ? 'text-white' : 'text-white/55 hover:text-white',
+            ]}
+          >
+            {item.label}
+            <svg
+              width="11" height="11" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5"
+              class="transition-transform duration-200 group-hover:rotate-180 opacity-60"
+            >
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
 
+          <!-- Painel dropdown -->
+          <div
+            class="absolute top-full left-0 mt-1.5 w-52 z-50
+                   opacity-0 invisible translate-y-1
+                   group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                   transition-all duration-200 ease-out"
+          >
+            <div
+              class="rounded-xl border border-white/10 overflow-hidden shadow-2xl"
+              style="background: rgba(2, 14, 28, 0.97); backdrop-filter: blur(20px);"
+            >
+              {item.children?.map((child) => (
+                <a
+                  href={child.href}
+                  class:list={[
+                    'flex items-center gap-2 px-4 py-2.5 text-sm transition-colors duration-150 border-b border-white/5 last:border-0',
+                    isActive(child.href)
+                      ? 'text-[#00BAFF] bg-white/5'
+                      : 'text-white/55 hover:text-white hover:bg-white/[0.06]',
+                  ]}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <a
+          href={item.href}
+          class:list={[
+            'px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200',
+            isActive(item.href) ? 'text-white' : 'text-white/55 hover:text-white',
+          ]}
+          aria-current={isActive(item.href) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      )
+    )}
+  </nav>
+
+  <!-- CTA desktop — pill outline que vira gradiente no hover -->
   <a
     href={ctaNav.href}
-    class="mt-4 md:mt-0 md:ml-2 px-4 py-2 text-sm font-semibold rounded-lg bg-brand-primary text-ink-inverse hover:bg-brand-secondary transition-colors whitespace-nowrap"
+    class="hidden md:inline-flex items-center gap-1.5 ml-2 px-4 py-2 rounded-full text-sm font-semibold
+           text-white border border-white/20
+           hover:border-transparent hover:text-[#010f1c]
+           transition-all duration-200 whitespace-nowrap relative overflow-hidden group/cta"
   >
-    {ctaNav.label}
+    <span class="absolute inset-0 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-200 rounded-full"
+          style="background: linear-gradient(90deg, #00BAFF, #4a78ff);"></span>
+    <span class="relative">{ctaNav.label}</span>
+    <svg class="relative" width="12" height="12" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </svg>
   </a>
-</nav>
+
+  <!-- Hambúrguer mobile — círculo com 2 linhas que viram X -->
+  <button
+    id="nav-toggle"
+    class="md:hidden relative w-9 h-9 rounded-full border border-white/20
+           flex items-center justify-center
+           hover:border-white/40 active:scale-95
+           transition-all duration-200"
+    aria-label="Abrir menu"
+    aria-expanded="false"
+    aria-controls="mobile-nav"
+  >
+    <div class="relative w-4 h-[11px] flex flex-col justify-between">
+      <span class="nav-bar block w-full h-[1.5px] bg-white rounded-full transition-all duration-300 origin-center"></span>
+      <span class="nav-bar block w-full h-[1.5px] bg-white rounded-full transition-all duration-300 origin-center"></span>
+    </div>
+  </button>
+
+</div>
+
+
+<!-- =====================================================
+     PAINEL MOBILE — slide from right, glass dark
+     ===================================================== -->
+<div
+  id="mobile-nav"
+  class="fixed top-0 right-0 h-dvh w-[min(320px,85vw)] z-[300]
+         flex flex-col
+         translate-x-full transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+  style="background: rgba(1, 12, 24, 0.98); backdrop-filter: blur(24px); border-left: 1px solid rgba(255,255,255,0.07);"
+  role="dialog"
+  aria-label="Menu de navegação"
+  aria-modal="true"
+>
+
+  <!-- Cabeçalho do painel -->
+  <div class="flex items-center justify-between px-6 h-16 border-b border-white/[0.07] shrink-0">
+    <span class="text-[10px] font-semibold uppercase tracking-[0.18em]" style="color: rgba(255,255,255,0.25);">
+      Menu
+    </span>
+    <button
+      id="nav-close"
+      class="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center
+             hover:border-white/35 active:scale-95 transition-all duration-200"
+      aria-label="Fechar menu"
+    >
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+           stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Links de navegação -->
+  <nav class="flex flex-col gap-0.5 px-3 py-5 flex-1 overflow-y-auto">
+    {mainNav.map((item) =>
+      item.hasDropdown ? (
+        <details class="group/det">
+          <summary
+            class:list={[
+              'flex items-center justify-between px-3 py-3 rounded-xl cursor-pointer select-none list-none',
+              'text-base font-medium transition-colors duration-150',
+              isActive(item.href) ? 'text-white' : 'text-white/55 hover:text-white',
+            ]}
+          >
+            {item.label}
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2"
+                 class="opacity-50 transition-transform duration-200 group-open/det:rotate-180">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </summary>
+
+          <div class="flex flex-col gap-0.5 pl-3 pb-2 mt-0.5">
+            {item.children?.map((child) => (
+              <a
+                href={child.href}
+                class:list={[
+                  'block px-3 py-2.5 rounded-lg text-sm transition-colors duration-150',
+                  isActive(child.href) ? 'text-[#00BAFF]' : 'text-white/40 hover:text-white',
+                ]}
+              >
+                {child.label}
+              </a>
+            ))}
+          </div>
+        </details>
+      ) : (
+        <a
+          href={item.href}
+          class:list={[
+            'block px-3 py-3 rounded-xl text-base font-medium transition-colors duration-150',
+            isActive(item.href) ? 'text-white' : 'text-white/55 hover:text-white',
+          ]}
+          aria-current={isActive(item.href) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      )
+    )}
+  </nav>
+
+  <!-- CTA no fundo do painel -->
+  <div class="px-4 pb-8 pt-4 shrink-0 border-t border-white/[0.07]">
+    <a
+      href={ctaNav.href}
+      class="flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-sm font-semibold text-white"
+      style="background: linear-gradient(90deg, #1630DF, #00BAFF);"
+    >
+      {ctaNav.label}
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+  </div>
+
+</div>
 
 <!-- Overlay mobile -->
 <div
   id="nav-overlay"
-  class="fixed inset-0 bg-black/40 z-[250] hidden md:hidden"
+  class="fixed inset-0 z-[250] md:hidden
+         opacity-0 pointer-events-none
+         transition-opacity duration-300"
+  style="background: rgba(0,0,0,0.55); backdrop-filter: blur(2px);"
   aria-hidden="true"
 ></div>
 
+
+<style>
+  /* Hambúrguer → X */
+  #nav-toggle.is-open .nav-bar:first-child {
+    transform: translateY(4.75px) rotate(45deg);
+  }
+  #nav-toggle.is-open .nav-bar:last-child {
+    transform: translateY(-4.75px) rotate(-45deg);
+  }
+
+  /* Esconde marcador nativo do <details> */
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+</style>
+
 <script>
-  const toggle   = document.getElementById('nav-toggle');
-  const nav      = document.getElementById('main-nav');
-  const overlay  = document.getElementById('nav-overlay');
+  const toggle  = document.getElementById('nav-toggle');
+  const close   = document.getElementById('nav-close');
+  const panel   = document.getElementById('mobile-nav');
+  const overlay = document.getElementById('nav-overlay');
 
   function openNav() {
-    nav?.classList.add('nav-open');
-    overlay?.classList.remove('hidden');
+    panel?.classList.remove('translate-x-full');
+    overlay?.classList.remove('opacity-0', 'pointer-events-none');
+    overlay?.classList.add('opacity-100');
+    toggle?.classList.add('is-open');
     toggle?.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
   }
 
   function closeNav() {
-    nav?.classList.remove('nav-open');
-    overlay?.classList.add('hidden');
+    panel?.classList.add('translate-x-full');
+    overlay?.classList.remove('opacity-100');
+    overlay?.classList.add('opacity-0', 'pointer-events-none');
+    toggle?.classList.remove('is-open');
     toggle?.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   }
 
   toggle?.addEventListener('click', () => {
-    nav?.classList.contains('nav-open') ? closeNav() : openNav();
+    toggle.classList.contains('is-open') ? closeNav() : openNav();
   });
-
+  close?.addEventListener('click', closeNav);
   overlay?.addEventListener('click', closeNav);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeNav();
-  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNav(); });
 </script>

@@ -1,0 +1,44 @@
+---
+interface Props {
+  className?: string;
+  glassClass?: string;
+  href?: string;
+  target?: string;
+  rounded?: string;
+}
+
+const { 
+  className = "", 
+  glassClass = "bg-white/10 group-hover:bg-white/20",
+  href, 
+  target = "_self",
+  rounded = "rounded-3xl"
+} = Astro.props;
+
+const Element = href ? 'a' : 'div';
+const htmlProps = href ? { href, target, rel: target === '_blank' ? "noopener noreferrer" : undefined } : {};
+---
+
+<Element 
+  {...htmlProps}
+  class={`group relative flex overflow-hidden transition-all duration-700 block ${className} ${rounded}`}
+  style="box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 0, 0, 0.15); transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 2.2);"
+>
+  <!-- Glass Layers -->
+  <div
+    class={`absolute inset-0 z-0 overflow-hidden rounded-[inherit] ${rounded}`}
+    style="backdrop-filter: blur(8px); filter: url(#glass-distortion); isolation: isolate;"
+  ></div>
+  <div
+    class={`absolute inset-0 z-10 rounded-[inherit] transition-colors duration-300 ${glassClass}`}
+  ></div>
+  <div
+    class={`absolute inset-0 z-20 rounded-[inherit] overflow-hidden ${rounded}`}
+    style="box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.25), inset -1px -1px 1px 0 rgba(255, 255, 255, 0.1);"
+  ></div>
+
+  <!-- Content -->
+  <div class="relative z-30 w-full h-full flex items-center justify-center">
+    <slot />
+  </div>
+</Element>

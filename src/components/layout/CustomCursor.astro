@@ -1,0 +1,137 @@
+---
+---
+<style is:global>
+  @media (pointer: fine) {
+    body, a, button, input, textarea, select, [role="button"] {
+      cursor: none !important;
+    }
+    
+    .cursor-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #00BAFF;
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+
+    .cursor-outline {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(0, 186, 255, 0.4);
+      background-color: rgba(0, 186, 255, 0.05);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+    }
+
+    /* Hover effect for links/buttons */
+    .cursor-dot.hovered {
+      width: 0px;
+      height: 0px;
+      opacity: 0;
+    }
+    
+    .cursor-outline.hovered {
+      width: 54px;
+      height: 54px;
+      background-color: rgba(0, 186, 255, 0.12);
+      border-color: rgba(0, 186, 255, 0.6);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+  }
+
+  @media (pointer: coarse) {
+    .cursor-dot, .cursor-outline {
+      display: none !important;
+    }
+  }
+</style>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-outline" id="cursor-outline"></div>
+
+<script>
+  if (window.matchMedia("(pointer: fine)").matches) {
+    const dot = document.getElementById('cursor-dot');
+    const outline = document.getElementById('cursor-outline');
+    
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    
+    // Force initial positions to negative so it doesn't flash in the middle before moving
+    if (dot) dot.style.left = '-100px';
+    if (outline) outline.style.left = '-100px';
+
+    let outlineX = mouseX;
+    let outlineY = mouseY;
+    let isVisible = false;
+    
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      if (!isVisible) {
+        outlineX = mouseX;
+        outlineY = mouseY;
+        isVisible = true;
+      }
+      
+      if (dot) {
+        dot.style.left = `${mouseX}px`;
+        dot.style.top = `${mouseY}px`;
+      }
+    });
+
+    const animate = () => {
+      const ease = 0.15;
+      
+      outlineX += (mouseX - outlineX) * ease;
+      outlineY += (mouseY - outlineY) * ease;
+      
+      if (outline) {
+        outline.style.left = `${outlineX}px`;
+        outline.style.top = `${outlineY}px`;
+      }
+      
+      requestAnimationFrame(animate);
+    };
+    animate();
+
+    const addHoverEvents = () => {
+      const interactables = document.querySelectorAll('a, button, input, textarea, select, details, summary, [role="button"], .pain-step');
+      
+      interactables.forEach((el) => {
+        el.addEventListener('mouseenter', () => {
+          dot?.classList.add('hovered');
+          outline?.classList.add('hovered');
+        });
+        
+        el.addEventListener('mouseleave', () => {
+          dot?.classList.remove('hovered');
+          outline?.classList.remove('hovered');
+        });
+      });
+    };
+    
+    // Call once DOM is fully parsed
+    document.addEventListener("DOMContentLoaded", () => {
+      addHoverEvents();
+    });
+    // Fallback if already loaded
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+      addHoverEvents();
+    }
+  }
+</script>

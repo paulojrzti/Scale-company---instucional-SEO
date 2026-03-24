@@ -1,0 +1,74 @@
+---
+// Preloader animado global
+---
+
+<style is:global>
+  body.preloading-lock, html.preloading-lock {
+    overflow: hidden !important;
+  }
+  
+  #global-preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999999;
+    background-color: #010f1c; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s cubic-bezier(0.7, 0, 0.3, 1), visibility 0.8s;
+  }
+
+  .preloader-brand {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    letter-spacing: 0.2em;
+    color: #ffffff;
+    text-transform: uppercase;
+    animation: pulseBase 1.5s ease-in-out infinite alternate;
+  }
+  .preloader-brand span {
+    color: #00BAFF; /* Destaque da marca */
+  }
+
+  @keyframes pulseBase {
+    0% { opacity: 0.3; filter: blur(2px); transform: scale(0.98); }
+    100% { opacity: 1; filter: blur(0px); transform: scale(1); }
+  }
+</style>
+
+<div id="global-preloader" aria-hidden="true">
+  <div class="preloader-brand">INICIANDO <span>ESCALA</span></div>
+</div>
+
+<script>
+  document.documentElement.classList.add('preloading-lock');
+  document.body.classList.add('preloading-lock');
+
+  const hidePreloader = () => {
+    const preloader = document.getElementById('global-preloader');
+    if (!preloader) return;
+
+    setTimeout(() => {
+      preloader.style.opacity = '0';
+      preloader.style.visibility = 'hidden';
+      
+      document.documentElement.classList.remove('preloading-lock');
+      document.body.classList.remove('preloading-lock');
+      
+      // Aciona animações da Hero
+      document.body.classList.add('preloader-finished');
+
+      setTimeout(() => {
+        preloader.remove();
+      }, 800);
+    }, 500); 
+  };
+
+  if (document.readyState === 'complete') {
+    hidePreloader();
+  } else {
+    window.addEventListener('load', hidePreloader);
+    setTimeout(hidePreloader, 3500); 
+  }
+</script>
