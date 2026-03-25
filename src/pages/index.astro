@@ -372,36 +372,97 @@ const faqs = [
         </div>
       </div>
 
-      <!-- Direita: imagem com slide (mesma altura do título + steps) -->
+      <!-- Direita: cenas 3D (uma por pain step) — oculto no mobile -->
       <div
-        class="relative rounded-2xl overflow-hidden order-first md:order-last reveal-right"
-        style="min-height: 320px;"
+        class="hidden md:relative md:block order-first md:order-last reveal-right"
+        style="min-height: 380px; height: 100%;"
       >
-        {[
-          'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80&fit=crop',
-          'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80&fit=crop',
-          'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=80&fit=crop',
-        ].map((src, i) => (
-          <div
-            class="pain-slide absolute inset-0"
-            data-pain-slide={i}
-            style={i === 0 ? 'opacity:1;transform:translateY(0);z-index:1;' : 'opacity:0;transform:translateY(100%);z-index:0;'}
-          >
-            <img
-              src={src}
-              alt=""
-              class="w-full h-full object-cover"
-              loading="lazy"
-            />
-            <!-- Gradiente escuro na base para integrar com o fundo -->
-            <div
-              style="
-                position:absolute;inset:0;
-                background: linear-gradient(to top, #011420 0%, rgba(1,20,32,0.55) 40%, transparent 100%);
-              "
-            ></div>
+
+        <!-- Scene 0: Relatório sem resultado -->
+        <div class="pain-slide absolute inset-0 flex items-center justify-center" data-pain-slide="0"
+          style="opacity:1;transform:translateY(0);z-index:1;">
+          <div class="ps-glow ps-glow-blue"></div>
+          <div class="ps-card" style="animation-delay:0s">
+            <div class="ps-pill" style="position:absolute;top:-14px;right:16px;">Relatório enviado ✓</div>
+            <p class="ps-label">Performance Q1 · 2024</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px;">
+              <div class="ps-metric">
+                <span class="ps-metric-val">12.4K</span>
+                <span class="ps-metric-key">Impressões</span>
+              </div>
+              <div class="ps-metric">
+                <span class="ps-metric-val">847</span>
+                <span class="ps-metric-key">Cliques</span>
+              </div>
+              <div class="ps-metric ps-metric-bad">
+                <span class="ps-metric-val ps-val-red">R$&nbsp;0</span>
+                <span class="ps-metric-key">Receita</span>
+              </div>
+            </div>
+            <div class="ps-bars">
+              <div class="ps-bar" style="--h:55%;--delay:0.05s"></div>
+              <div class="ps-bar" style="--h:72%;--delay:0.10s"></div>
+              <div class="ps-bar" style="--h:48%;--delay:0.15s"></div>
+              <div class="ps-bar" style="--h:80%;--delay:0.20s"></div>
+              <div class="ps-bar" style="--h:63%;--delay:0.25s"></div>
+              <div class="ps-bar" style="--h:38%;--delay:0.30s"></div>
+            </div>
+            <p class="ps-caption">Cliques <span style="color:#00BAFF">▲</span>&nbsp;&nbsp;•&nbsp;&nbsp;Receita <span style="color:#ef4444">——</span></p>
           </div>
-        ))}
+        </div>
+
+        <!-- Scene 1: Falta de transparência -->
+        <div class="pain-slide absolute inset-0 flex items-center justify-center" data-pain-slide="1"
+          style="opacity:0;transform:translateY(100%);z-index:0;">
+          <div class="ps-glow ps-glow-blue"></div>
+          <div class="ps-card" style="animation-delay:0.15s">
+            <p class="ps-label">Plano de ação — Março</p>
+            <div style="margin-bottom:18px;">
+              {['90%','65%','80%','50%','75%','42%'].map((w) => (
+                <div class="ps-redact" style={`width:${w}`}></div>
+              ))}
+            </div>
+            <div class="ps-lock-wrap">
+              <svg width="30" height="36" viewBox="0 0 30 36" fill="none">
+                <rect x="3" y="17" width="24" height="16" rx="4" fill="rgba(0,186,255,0.12)" stroke="#00BAFF" stroke-width="1.5"/>
+                <path d="M9 17V12a6 6 0 0 1 12 0v5" stroke="#00BAFF" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <circle cx="15" cy="25" r="2.5" fill="#00BAFF"/>
+                <line x1="15" y1="27.5" x2="15" y2="30.5" stroke="#00BAFF" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="ps-lock-label">Acesso restrito</span>
+            </div>
+            <p class="ps-caption">Próximos passos:&nbsp;<span style="color:rgba(255,255,255,0.2);letter-spacing:0.04em">██████████</span></p>
+          </div>
+        </div>
+
+        <!-- Scene 2: Clique que não converte -->
+        <div class="pain-slide absolute inset-0 flex items-center justify-center" data-pain-slide="2"
+          style="opacity:0;transform:translateY(100%);z-index:0;">
+          <div class="ps-glow ps-glow-red"></div>
+          <div class="ps-card" style="animation-delay:0.3s">
+            <div class="ps-pill ps-pill-blue" style="position:absolute;top:-14px;left:16px;">Anúncio ativo</div>
+            <p class="ps-label">Campanha em execução</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+              <div class="ps-metric">
+                <span class="ps-metric-val">284</span>
+                <span class="ps-metric-key">Cliques pagos</span>
+              </div>
+              <div class="ps-metric ps-metric-bad">
+                <span class="ps-metric-val ps-val-red">0</span>
+                <span class="ps-metric-key">Conversões</span>
+              </div>
+            </div>
+            <div class="ps-funnel-wrap">
+              <div class="ps-funnel-top"></div>
+              <div class="ps-funnel-mid"></div>
+              <div class="ps-funnel-bot">
+                <span style="font-size:10px;font-weight:600;color:rgba(239,68,68,0.6)">R$&nbsp;0</span>
+              </div>
+            </div>
+            <p class="ps-caption">R$&nbsp;1.850 investidos&nbsp;&nbsp;•&nbsp;&nbsp;<span style="color:#ef4444">0 vendas</span></p>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -428,7 +489,7 @@ const faqs = [
       }
       .pain-step-circle.is-active {
         background: linear-gradient(135deg, #1630DF, #00BAFF);
-        border-color: transparent;
+        border: none;
         color: #fff;
         transform: scale(1.1);
       }
@@ -452,6 +513,174 @@ const faqs = [
         opacity: 0 !important;
         transform: translateY(-8%) !important;
         z-index: 1 !important;
+      }
+
+      /* ── 3D Scene cards ── */
+      .ps-glow {
+        position: absolute;
+        width: 320px; height: 320px;
+        border-radius: 50%;
+        filter: blur(80px);
+        pointer-events: none;
+        opacity: 0.35;
+      }
+      .ps-glow-blue { background: radial-gradient(circle, #1630DF 0%, transparent 70%); }
+      .ps-glow-red  { background: radial-gradient(circle, rgba(239,68,68,0.6) 0%, transparent 70%); }
+
+      .ps-card {
+        position: relative;
+        width: min(300px, 82%);
+        padding: 24px 20px 18px;
+      }
+      @media (min-width: 768px) {
+        /* slide estica para preencher o pai e passa altura ao card */
+        [data-pain-slide] {
+          align-items: stretch;
+          padding: 0;
+        }
+        .ps-card {
+          width: 100%;
+          height: 100%;
+          padding: 40px 36px 36px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          border-radius: 22px;
+          transform: perspective(900px) rotateX(4deg) rotateY(-6deg);
+          animation: ps-float-rect 6s ease-in-out infinite;
+        }
+        @keyframes ps-float-rect {
+          0%,100% { transform: perspective(900px) rotateX(4deg)  rotateY(-6deg) translateY(0px);  }
+          50%      { transform: perspective(900px) rotateX(2deg)  rotateY(-4deg) translateY(-8px); }
+        }
+        .ps-metric-val { font-size: 30px; }
+        .ps-metric-key { font-size: 11px; }
+        .ps-bars       { height: 100px; gap: 8px; flex: 1; align-items: flex-end; }
+        .ps-label      { font-size: 12px; margin-bottom: 22px; }
+        .ps-caption    { font-size: 12px; margin-top: 12px; }
+        .ps-pill       { font-size: 11px; padding: 4px 12px; }
+        .ps-redact     { height: 10px; margin-bottom: 12px; }
+        .ps-lock-wrap  { flex: 1; justify-content: center; }
+        .ps-funnel-wrap { flex: 1; justify-content: center; }
+        .ps-funnel-top { height: 34px; }
+        .ps-funnel-mid { height: 26px; }
+        .ps-funnel-bot { height: 34px; }
+      }
+      .ps-card {
+        background: linear-gradient(145deg, rgba(255,255,255,0.065) 0%, rgba(255,255,255,0.018) 100%);
+        border: 1px solid rgba(255,255,255,0.09);
+        border-radius: 18px;
+        backdrop-filter: blur(16px);
+        box-shadow:
+          0 0 0 1px rgba(0,186,255,0.07),
+          0 24px 64px rgba(0,0,0,0.55),
+          0 0 100px rgba(22,48,223,0.18),
+          inset 0 1px 0 rgba(255,255,255,0.07);
+        transform: perspective(700px) rotateX(9deg) rotateY(-12deg);
+        animation: ps-float 5s ease-in-out infinite;
+      }
+      @keyframes ps-float {
+        0%,100% { transform: perspective(700px) rotateX(9deg)  rotateY(-12deg) translateY(0px);   }
+        50%      { transform: perspective(700px) rotateX(6deg)  rotateY(-8deg)  translateY(-10px); }
+      }
+
+      .ps-label {
+        font-size: 10px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 0.1em;
+        color: rgba(255,255,255,0.32);
+        margin-bottom: 14px;
+      }
+      .ps-pill {
+        font-size: 10px; font-weight: 600;
+        color: #00BAFF;
+        background: rgba(0,186,255,0.1);
+        border: 1px solid rgba(0,186,255,0.28);
+        padding: 3px 10px; border-radius: 20px;
+        white-space: nowrap;
+      }
+      .ps-pill-blue { color: #6b8fff; background: rgba(22,48,223,0.2); border-color: rgba(22,48,223,0.45); }
+
+      .ps-metric {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 10px; padding: 9px 8px; text-align: center;
+      }
+      .ps-metric-bad {
+        background: rgba(239,68,68,0.05);
+        border-color: rgba(239,68,68,0.18);
+      }
+      .ps-metric-val {
+        display: block; font-size: 20px; font-weight: 700;
+        color: #00BAFF; line-height: 1; margin-bottom: 4px;
+      }
+      .ps-val-red { color: #ef4444; }
+      .ps-metric-key {
+        display: block; font-size: 9px;
+        text-transform: uppercase; letter-spacing: 0.06em;
+        color: rgba(255,255,255,0.28);
+      }
+
+      .ps-bars {
+        display: flex; align-items: flex-end;
+        gap: 5px; height: 54px; margin-bottom: 10px;
+      }
+      .ps-bar {
+        flex: 1; height: var(--h);
+        background: linear-gradient(to top, #1630DF 0%, #00BAFF 100%);
+        border-radius: 3px 3px 0 0;
+        opacity: 0.75;
+        animation: ps-bar-grow 0.9s cubic-bezier(0.16,1,0.3,1) var(--delay, 0s) both;
+      }
+      @keyframes ps-bar-grow {
+        from { transform: scaleY(0); transform-origin: bottom; }
+        to   { transform: scaleY(1); transform-origin: bottom; }
+      }
+
+      .ps-caption {
+        font-size: 10px; color: rgba(255,255,255,0.22);
+        text-align: center; margin-top: 6px;
+      }
+
+      .ps-redact {
+        height: 8px; background: rgba(255,255,255,0.07);
+        border-radius: 4px; margin-bottom: 9px;
+      }
+
+      .ps-lock-wrap {
+        display: flex; flex-direction: column;
+        align-items: center; gap: 7px;
+        padding: 14px 12px;
+        background: rgba(0,186,255,0.04);
+        border: 1px solid rgba(0,186,255,0.12);
+        border-radius: 12px; margin-bottom: 12px;
+        filter: drop-shadow(0 0 18px rgba(0,186,255,0.25));
+      }
+      .ps-lock-label {
+        font-size: 10px; font-weight: 700;
+        color: rgba(0,186,255,0.65);
+        text-transform: uppercase; letter-spacing: 0.1em;
+      }
+
+      .ps-funnel-wrap {
+        display: flex; flex-direction: column;
+        align-items: center; margin-bottom: 12px;
+      }
+      .ps-funnel-top {
+        width: 100%; height: 22px;
+        background: linear-gradient(to bottom, rgba(0,186,255,0.22), rgba(22,48,223,0.16));
+        clip-path: polygon(0 0, 100% 0, 78% 100%, 22% 100%);
+      }
+      .ps-funnel-mid {
+        width: 56%; height: 16px;
+        background: rgba(22,48,223,0.18);
+        clip-path: polygon(0 0, 100% 0, 83% 100%, 17% 100%);
+      }
+      .ps-funnel-bot {
+        width: 28%; height: 22px;
+        background: rgba(239,68,68,0.07);
+        border: 1px solid rgba(239,68,68,0.22);
+        border-radius: 0 0 8px 8px;
+        display: flex; align-items: center; justify-content: center;
       }
     </style>
 
@@ -538,7 +767,7 @@ const faqs = [
       </div>
 
       <!-- Direita: Testimonial Stack -->
-      <div class="reveal-right">
+      <div class="reveal-right text-center md:text-left">
         <h3
           class="font-heading font-bold leading-[1.15] mb-4"
           style="font-size: clamp(1.8rem, 3.5vw, 2.8rem); background: linear-gradient(to bottom, #ffffff 30%, #a1a1aa 75%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
@@ -548,14 +777,21 @@ const faqs = [
         <p class="text-base leading-relaxed mb-6" style="color: rgba(255,255,255,0.50);">
           Diagnóstico honesto antes de qualquer proposta. Estratégia baseada em dado. Execução com relatório que você entende.
         </p>
-        <a
-          href="/contato"
-          class="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-semibold rounded-lg transition-opacity hover:opacity-90"
-          style="background-color: #00BAFF; color: #010f1c;"
-        >
-          Falar com especialista
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
+        <span class="relative inline-block overflow-hidden rounded-full" style="padding: 1.5px;">
+          <span
+            class="animate-spin-slow absolute pointer-events-none"
+            aria-hidden="true"
+            style="inset: -100%; background: conic-gradient(from 90deg at 50% 50%, #00BAFF 0%, #1630DF 50%, #00BAFF 100%);"
+          ></span>
+          <a
+            href="/contato"
+            class="relative inline-flex items-center gap-2 px-8 py-4 text-base font-semibold rounded-full transition-opacity hover:opacity-90"
+            style="background: #010f1c; color: white;"
+          >
+            Falar com especialista
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </span>
       </div>
     </div>
 
@@ -629,6 +865,12 @@ const faqs = [
       >
         Crescimento Estruturado.
       </h2>
+      <p
+        class="mx-auto mt-2"
+        style="max-width: 520px; font-size: clamp(0.95rem, 1.5vw, 1.1rem); color: rgba(255,255,255,0.45); line-height: 1.65;"
+      >
+        Serviços que funcionam sozinhos ou em conjunto. Você escolhe o que faz sentido e escala no seu ritmo.
+      </p>
     </div>
 
     <!-- Fade edges -->
@@ -688,6 +930,14 @@ const faqs = [
           tags: ['automação', 'nutrição', 'conversão'],
           desc: 'Sequências de e-mail que nutrem, convertem e retêm clientes ao longo do tempo.',
           image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=800&q=80&fit=crop',
+        },
+        {
+          slug: 'estruturacao-comercial',
+          title: 'Estruturação Comercial',
+          type: 'Vendas',
+          tags: ['processos', 'funil', 'CRM'],
+          desc: 'Estruturamos seu processo de vendas do primeiro contato ao fechamento, com funil, scripts e ferramentas.',
+          image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80&fit=crop',
         },
       ].map((s) => (
         <a
@@ -861,7 +1111,7 @@ const faqs = [
 
       const trackW     = track.scrollWidth;
       const containerW = outer.offsetWidth;
-      const maxX       = -(trackW - containerW + containerW * 0.16); // descontar padding
+      const maxX       = -(trackW - containerW); // track vai até o fim do conteúdo
       track.style.transform  = `translateX(${pct * maxX}px)`;
       progress.style.transform = `scaleX(${pct})`;
     }
@@ -930,13 +1180,21 @@ const faqs = [
         </div>
 
         <div class="mt-10">
-          <a
-            href="/contato"
-            class="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-semibold rounded-lg transition-opacity hover:opacity-90"
-            style="background-color: #00BAFF; color: #010f1c;"
-          >
-            Solicitar diagnóstico gratuito
-          </a>
+          <span class="relative inline-block overflow-hidden rounded-full" style="padding: 1.5px;">
+            <span
+              class="animate-spin-slow absolute pointer-events-none"
+              aria-hidden="true"
+              style="inset: -100%; background: conic-gradient(from 90deg at 50% 50%, #00BAFF 0%, #1630DF 50%, #00BAFF 100%);"
+            ></span>
+            <a
+              href="/contato"
+              class="relative inline-flex items-center gap-2 px-8 py-4 text-base font-semibold rounded-full transition-opacity hover:opacity-90"
+              style="background: #010f1c; color: white;"
+            >
+              Solicitar diagnóstico gratuito
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </span>
         </div>
       </div>
 
@@ -1252,16 +1510,24 @@ const faqs = [
     </p>
 
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a
-        href="/contato"
-        class="px-8 py-4 text-base font-semibold rounded-lg transition-opacity hover:opacity-90 w-full sm:w-auto"
-        style="background: white; color: #1630DF;"
-      >
-        Solicitar diagnóstico gratuito
-      </a>
+      <span class="relative inline-block overflow-hidden rounded-full w-full sm:w-auto" style="padding: 1.5px;">
+        <span
+          class="animate-spin-slow absolute pointer-events-none"
+          aria-hidden="true"
+          style="inset: -100%; background: conic-gradient(from 90deg at 50% 50%, #00BAFF 0%, #1630DF 50%, #00BAFF 100%);"
+        ></span>
+        <a
+          href="/contato"
+          class="relative inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold rounded-full transition-opacity hover:opacity-90 w-full"
+          style="background: #010f1c; color: white;"
+        >
+          Solicitar diagnóstico gratuito
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </span>
       <a
         href="https://wa.me/5527XXXXXXXX"
-        class="px-8 py-4 text-base font-semibold rounded-lg border-2 border-white text-white hover:bg-white/10 transition-colors w-full sm:w-auto"
+        class="px-8 py-4 text-base font-semibold rounded-full border border-white/30 text-white hover:bg-white/10 transition-colors w-full sm:w-auto text-center"
       >
         WhatsApp
       </a>
